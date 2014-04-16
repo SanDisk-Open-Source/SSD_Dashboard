@@ -1,0 +1,8 @@
+fix-makefile-bugs.patch -p1
+fix-manpages.patch
+hide-library-destructors.patch -p1
+fix-cross-compile.patch -p1
+add-includededir
+python-include
+python-link
+allow-libbase-override.patch

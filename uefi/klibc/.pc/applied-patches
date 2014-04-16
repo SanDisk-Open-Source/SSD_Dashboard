@@ -1,0 +1,8 @@
+ia64-static
+ppc64-static
+klibc-linux-libc-dev
+insmod
+multiarch-include-path
+Fix-minimal-mv-to-work-across-fs
+upstream-nlink_t.patch
+FD_SETSIZE

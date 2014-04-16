@@ -1,0 +1,30 @@
+Description: Add -I$(INCLUDEDIR) to CFLAGS
+  This patch simply adds the INCLUDEDIR
+Author: Kyle Moffett <Kyle.D.Moffett@boeing.com>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+Index: libselinux-2.1.0/src/Makefile
+===================================================================
+--- libselinux-2.1.0.orig/src/Makefile	2012-01-02 18:32:56.000000000 +0900
++++ libselinux-2.1.0/src/Makefile	2012-01-02 18:32:56.000000000 +0900
+@@ -47,7 +47,7 @@
+ OBJS= $(patsubst %.c,%.o,$(SRCS))
+ LOBJS= $(patsubst %.c,%.lo,$(SRCS))
+ CFLAGS ?= -Werror -Wall -W -Wundef -Wshadow -Wmissing-noreturn -Wmissing-format-attribute
+-override CFLAGS += -I../include -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 $(EMFLAGS)
++override CFLAGS += -I../include -I$(INCLUDEDIR) -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 $(EMFLAGS)
+ RANLIB=ranlib
+ 
+ ARCH := $(patsubst i%86,i386,$(shell uname -m))

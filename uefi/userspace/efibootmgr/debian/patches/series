@@ -1,0 +1,4 @@
+ldflags.patch
+docbook-fixes.patch
+efibootmgr-0.5.4-support-4k-sectors.patch
+w-keep-existing-mbr-signature.patch

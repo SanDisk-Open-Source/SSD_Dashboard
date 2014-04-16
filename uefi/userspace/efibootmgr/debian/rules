@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+# rules file for the efibootmgr package, requires debhelper / dh
+# copyright 2012 by Bdale Garbee, GPLv2 or later
+
+export DH_VERBOSE=1
+
+%:
+	dh $@
+
+override_dh_installman:
+	(cd src/man/man8 ; docbook-to-man efibootmgr.8.docbook > efibootmgr.8)
+	dh_installman
+
+override_dh_clean:
+	rm -f src/man/man8/efibootmgr.8
+	dh_clean

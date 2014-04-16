@@ -1,0 +1,120 @@
+Description: Include missing prototypes, and disable use of BIO_new_file
+ Pull in one missing prototype for ScanMem8() that's not yet upstream in
+ gnu-efi, and #ifdef out references to BIO_new_file() and BIO_new_fp()
+ since the prototypes are themselves #ifdef'ed out.
+ .
+ Without these prototypes, we get implicit conversions on amd64, which
+ are sensibly treated as a build failure by Launchpad.
+Author: Steve Langasek <steve.langasek@ubuntu.com>
+
+Index: shim/Cryptlib/Library/BaseMemoryLib.h
+===================================================================
+--- /dev/null
++++ shim/Cryptlib/Library/BaseMemoryLib.h
+@@ -0,0 +1,11 @@
++#ifndef __BASE_MEMORY_LIB__
++#define __BASE_MEMORY_LIB__
++
++CHAR8 *
++ScanMem8 (
++    IN CHAR8          *Buffer,
++    IN UINTN           Size,
++    IN CHAR8           Value
++    );
++
++#endif
+Index: shim/Cryptlib/OpenSSL/crypto/x509v3/v3_pci.c
+===================================================================
+--- shim.orig/Cryptlib/OpenSSL/crypto/x509v3/v3_pci.c
++++ shim/Cryptlib/OpenSSL/crypto/x509v3/v3_pci.c
+@@ -157,6 +157,7 @@
+ 				}
+ 			OPENSSL_free(tmp_data2);
+ 			}
++#ifndef OPENSSL_NO_STDIO
+ 		else if (strncmp(val->value, "file:", 5) == 0)
+ 			{
+ 			unsigned char buf[2048];
+@@ -194,6 +195,7 @@
+ 				goto err;
+ 				}
+ 			}
++#endif
+ 		else if (strncmp(val->value, "text:", 5) == 0)
+ 			{
+ 			val_len = strlen(val->value + 5);
+Index: shim/Cryptlib/OpenSSL/crypto/conf/conf_def.c
+===================================================================
+--- shim.orig/Cryptlib/OpenSSL/crypto/conf/conf_def.c
++++ shim/Cryptlib/OpenSSL/crypto/conf/conf_def.c
+@@ -186,11 +186,13 @@
+ 	int ret;
+ 	BIO *in=NULL;
+ 
++#ifndef OPENSSL_NO_STDIO
+ #ifdef OPENSSL_SYS_VMS
+ 	in=BIO_new_file(name, "r");
+ #else
+ 	in=BIO_new_file(name, "rb");
+ #endif
++#endif
+ 	if (in == NULL)
+ 		{
+ 		if (ERR_GET_REASON(ERR_peek_last_error()) == BIO_R_NO_SUCH_FILE)
+Index: shim/Cryptlib/OpenSSL/crypto/conf/conf_lib.c
+===================================================================
+--- shim.orig/Cryptlib/OpenSSL/crypto/conf/conf_lib.c
++++ shim/Cryptlib/OpenSSL/crypto/conf/conf_lib.c
+@@ -92,11 +92,13 @@
+ 	LHASH *ltmp;
+ 	BIO *in=NULL;
+ 
++#ifndef OPENSSL_NO_STDIO
+ #ifdef OPENSSL_SYS_VMS
+ 	in=BIO_new_file(file, "r");
+ #else
+ 	in=BIO_new_file(file, "rb");
+ #endif
++#endif
+ 	if (in == NULL)
+ 		{
+ 		CONFerr(CONF_F_CONF_LOAD,ERR_R_SYS_LIB);
+Index: shim/Cryptlib/OpenSSL/crypto/conf/conf_sap.c
+===================================================================
+--- shim.orig/Cryptlib/OpenSSL/crypto/conf/conf_sap.c
++++ shim/Cryptlib/OpenSSL/crypto/conf/conf_sap.c
+@@ -93,12 +93,14 @@
+ 		{
+ 		BIO *bio_err;
+ 		ERR_load_crypto_strings();
++#ifndef OPENSSL_NO_STDIO
+ 		if ((bio_err=BIO_new_fp(stderr, BIO_NOCLOSE)) != NULL)
+ 			{
+ 			BIO_printf(bio_err,"Auto configuration failed\n");
+ 			ERR_print_errors(bio_err);
+ 			BIO_free(bio_err);
+ 			}
++#endif
+ 		exit(1);
+ 		}
+ 
+Index: shim/Cryptlib/OpenSSL/crypto/engine/eng_openssl.c
+===================================================================
+--- shim.orig/Cryptlib/OpenSSL/crypto/engine/eng_openssl.c
++++ shim/Cryptlib/OpenSSL/crypto/engine/eng_openssl.c
+@@ -374,11 +374,15 @@
+ 	BIO *in;
+ 	EVP_PKEY *key;
+ 	fprintf(stderr, "(TEST_ENG_OPENSSL_PKEY)Loading Private key %s\n", key_id);
++#ifndef OPENSSL_NO_STDIO
+ 	in = BIO_new_file(key_id, "r");
+ 	if (!in)
+ 		return NULL;
+ 	key = PEM_read_bio_PrivateKey(in, NULL, 0, NULL);
+ 	BIO_free(in);
++#else
++	return NULL;
++#endif
+ 	return key;
+ 	}
+ #endif

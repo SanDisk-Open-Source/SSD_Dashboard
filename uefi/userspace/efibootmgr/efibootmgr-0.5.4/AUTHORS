@@ -1,0 +1,26 @@
+Matt Domsch <Matt_Domsch@dell.com>
+- All .c and .h files
+
+
+Andreas Schwab <schwab@suse.de>
+- Patches to several .c and .h files
+
+Richard Hirst <rhirst@linuxcare.com>
+- Patch to efichar.c
+
+dann frazier <dannf@debian.org>
+- docbook of manpage
+- Patches to efibootmgr.c
+- network boot entry creation in efi.c
+
+Joshua Giles <Joshua_Giles@dell.com>
+- walk the PCI path inserting parent bridge device path components for
+  network boot and EDD30 entries.
+
+Alex Williamson <alex.williamson@hp.com>
+- Patch to efi.c and efibootmgr.c for handling BootXXXX values
+  using uppercase hex rather than lowercase, per EFI 1.10 spec.
+
+Rogerio Timmers <rogerio.timmers@hp.com>
+- add option -@  for passing extra variable options in from a file,
+  necessary for setting up some boot entries for Microsoft Windows.

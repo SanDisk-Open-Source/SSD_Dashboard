@@ -1,0 +1,50 @@
+x86, mce: Xeon75xx specific interface to get corrected memory error information
+x86, mce: Rename cpu_specific_poll to mce_cpu_specific_poll
+x86, mce: Make xeon75xx memory driver dependent on PCI
+UBUNTU: SAUCE: (no-up) PM report driver and device suspend/resume times.
+UBUNTU: SAUCE: vt -- maintain bootloader screen mode and content until vt switch
+UBUNTU: SAUCE: vt -- allow grub to request automatic vt_handoff
+UBUNTU: SAUCE: headers_install: fix #include "..." usage for userspace
+UBUNTU: SAUCE: Remove redundant sun/cassini firmware
+UBUNTU: SAUCE: Yama: add link restrictions
+UBUNTU: SAUCE: security: unconditionally chain to Yama LSM
+UBUNTU: SAUCE: firmware: Remove cxgb3 files duplicated in linux-firmware
+UBUNTU: SAUCE: firmware: Remove matrox files duplicated in linux-firmware
+UBUNTU: SAUCE: firmware: Remove r128 files duplicated in linux-firmware
+UBUNTU: SAUCE: firmware: Remove radeon files duplicated in linux-firmware
+UBUNTU: SAUCE: drm/i915: Explicitly disable RC6 for certain models
+
+Dropped for 3.8-rc1 rebase:
+UBUNTU: SAUCE: async_populate_rootfs: move rootfs init earlier
+UBUNTU: SAUCE: async_populate_rootfs: fix build warnings
+UBUNTU: SAUCE: input: add a key driver for highbank
+UBUNTU: SAUCE: Remove redundant emi26 firmware
+UBUNTU: SAUCE: Remove redundant 3com/typhoon.bin firmware
+UBUNTU: SAUCE: ata_piix: add a disable_driver option
+UBUNTU: SAUCE: net: calxedaxgmac: use relaxed i/o accessors in rx and tx paths
+UBUNTU: SAUCE: net: calxedaxgmac: drop some unnecessary register writes
+UBUNTU: SAUCE: net: calxedaxgmac: rework transmit ring handling
+Revert "UBUNTU: SAUCE: input: add a key driver for highbank"
+Revert "UBUNTU: SAUCE: async_populate_rootfs: fix build warnings"
+Revert "UBUNTU: SAUCE: async_populate_rootfs: move rootfs init earlier"
+UBUNTU: ubuntu: AUFS
+UBUNTU: SAUCE: omap3 clocks .dev_id = NULL
+UBUNTU: SAUCE: efi: Add support for a UEFI variable filesystem
+UBUNTU: SAUCE: efi: add efivars kobject to efi sysfs folder
+UBUNTU: SAUCE: efivars: efivarfs_create() ensure we drop our reference on inode on error
+Revert "UBUNTU: ubuntu: AUFS"
+UBUNTU: ubuntu: AUFS (no-squash) -- aufs3-standalone.patch
+ - apw: this is needed, wiggled a version of this back on
+Revert "UBUNTU: SAUCE: omap3 clocks .dev_id = NULL"
+UBUNTU: SAUCE: Remove emi62 files duplicated in linux-firmware
+UBUNTU: SAUCE: Remove whiteheat files duplicated in linux-firmware
+UBUNTU: SAUCE: firmware: Remove last vestiges of dabusb
+UBUNTU: SAUCE: fsnotify: use reference counting for groups
+UBUNTU: SAUCE: fsnotify: pass group to fsnotify_destroy_mark()
+UBUNTU: SAUCE: fsnotify: introduce locked versions of fsnotify_add_mark() and fsnotify_remove_mark()
+UBUNTU: SAUCE: drm: Fix possible EDID memory allocation oops
+UBUNTU: SAUCE: i915: intel_set_mode: Reduce stack allocation from 500 bytes to 2 pointers
+Revert "[SCSI] sd: Implement support for WRITE SAME"
+Revert "Revert "[SCSI] sd: Implement support for WRITE SAME""
+exec: use -ELOOP for max recursion depth
+

@@ -1,0 +1,20 @@
+Description: Chainload grubx64.efi, not grub.efi
+ We qualify the second stage bootloader image with the architecture name,
+ so we're forwards-compatible with any future 32-bit implementations.
+ (Non-SB grub doesn't conflict, since the image will be named bootia32.efi
+ anyway, not grub.efi.)
+Author: Steve Langasek <steve.langasek@ubuntu.com>
+
+Index: shim/shim.c
+===================================================================
+--- shim.orig/shim.c
++++ shim/shim.c
+@@ -42,7 +42,7 @@
+ #include "netboot.h"
+ #include "shim_cert.h"
+ 
+-#define SECOND_STAGE L"\\grub.efi"
++#define SECOND_STAGE L"\\grubx64.efi"
+ #define MOK_MANAGER L"\\MokManager.efi"
+ 
+ static EFI_SYSTEM_TABLE *systab;

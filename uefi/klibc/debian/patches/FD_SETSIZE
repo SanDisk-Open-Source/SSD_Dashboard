@@ -1,0 +1,35 @@
+Description: Fix <sys/time.h> for Linux 3.5.1
+Author: Colin Watson <cjwatson@ubuntu.com>
+Forwarded: klibc@zytor.com, 2012-09-25
+Last-Update: 2012-09-25
+
+Index: b/usr/include/sys/time.h
+===================================================================
+--- a/usr/include/sys/time.h
++++ b/usr/include/sys/time.h
+@@ -15,6 +15,8 @@
+    double-underscore ones, except __NFDBITS, __FD_SETSIZE and
+    __FDSET_LONGS which are defined in <linux/posix_types.h>.
+ 
++   From 3.5.1, <linux/time.h> does not even define FD_ZERO etc.
++
+    Unfortunately, some architectures define the double-underscore ones
+    as inlines, so we can't use a simple #ifdef test.  Thus, the only
+    safe option remaining is to #undef the top-level macros. */
+@@ -23,6 +25,7 @@
+ #undef FD_SET
+ #undef FD_CLR
+ #undef FD_ISSET
++#undef FD_SETSIZE
+ 
+ __extern void *memset(void *, int, size_t);
+ static inline void FD_ZERO(fd_set *__fdsetp)
+@@ -45,6 +48,8 @@
+ 		(__fd % BITS_PER_LONG)) & 1;
+ }
+ 
++#define FD_SETSIZE __FD_SETSIZE
++
+ __extern int gettimeofday(struct timeval *, struct timezone *);
+ __extern int settimeofday(const struct timeval *, const struct timezone *);
+ __extern int getitimer(int, struct itimerval *);

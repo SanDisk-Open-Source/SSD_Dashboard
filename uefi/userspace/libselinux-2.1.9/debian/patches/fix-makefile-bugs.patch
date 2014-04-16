@@ -1,0 +1,123 @@
+Description: Various Makefile bugfixes and improvements
+ Fix 1: When symlinking between top-level directories we should use absolute
+ file paths instead of relative ones.
+ .
+ Fix 2: Allow Debian packaging to override which directory we expect to find
+ libsepol.a in.
+ .
+ Fix 3: Add clean-pywrap/clean-rubywrap targets and pass all of the *wrap
+ targets through to the src/Makefile (EG: install-pywrap/install-rubywrap).
+ .
+ Fix 4: Newer SWIG only wants a single .i file on the command line, and
+ errors out if you give it extras (which are already included).  Fix the
+ command line in the $(SWIGCOUT) target and make "swigify" depend on it.
+ .
+ The first two fixes were extracted from the old Debian patch.
+ .
+ Tweaked for version 2.1.9 by Russell Coker
+Author: Kyle Moffett <Kyle.D.Moffett@boeing.com>
+
+---
+Forwarded: no
+Last-Update: 2011-10-13
+
+diff -ru libselinux-2.1.9.orig/Makefile libselinux-2.1.9/Makefile
+--- libselinux-2.1.9.orig/Makefile	2011-12-22 04:46:04.000000000 +1100
++++ libselinux-2.1.9/Makefile	2012-02-20 15:51:29.000000000 +1100
+@@ -26,11 +26,9 @@
+ swigify: all
+ 	$(MAKE) -C src swigify
+ 
+-pywrap: 
+-	$(MAKE) -C src pywrap
+-
+-rubywrap: 
+-	$(MAKE) -C src rubywrap
++## Various pywrap/rubywrap targets
++%wrap: 
++	$(MAKE) -C src $@
+ 
+ install: 
+ 	$(MAKE) -C include install
+@@ -38,12 +36,6 @@
+ 	$(MAKE) -C utils install
+ 	$(MAKE) -C man install
+ 
+-install-pywrap: 
+-	$(MAKE) -C src install-pywrap 
+-
+-install-rubywrap: 
+-	$(MAKE) -C src install-rubywrap 
+-
+ relabel: 
+ 	$(MAKE) -C src relabel
+ 
+diff -ru libselinux-2.1.9.orig/utils/Makefile libselinux-2.1.9/utils/Makefile
+--- libselinux-2.1.9.orig/utils/Makefile	2011-12-22 04:46:04.000000000 +1100
++++ libselinux-2.1.9/utils/Makefile	2012-02-20 15:51:29.000000000 +1100
+@@ -26,7 +26,7 @@
+ 	install -m 755 $(TARGETS) $(BINDIR)
+ 	-mkdir -p $(_BINDIR)
+ 	install -m 755 matchpathcon $(_BINDIR)
+-	(cd $(BINDIR); 	ln -fs ../../sbin/matchpathcon)
++	(cd $(BINDIR); 	ln -fs /sbin/matchpathcon)
+ clean:
+ 	rm -f $(TARGETS) matchpathcon *.o *~
+ 
+diff -ru libselinux-2.1.9.orig/src/Makefile libselinux-2.1.9/src/Makefile
+--- libselinux-2.1.9.orig/src/Makefile	2011-12-22 04:46:04.000000000 +1100
++++ libselinux-2.1.9/src/Makefile	2012-02-20 15:53:56.000000000 +1100
+@@ -62,6 +62,10 @@
+ TLSFLAGS += -mno-tls-direct-seg-refs
+ endif
+ 
++ifeq (,$(strip $(LIBSEPOLDIR)))
++LIBSEPOLDIR=$(LIBDIR)
++endif
++
+ SWIG = swig -Wall -python -o $(SWIGCOUT) -outdir ./
+ 
+ SWIGRUBY = swig -Wall -ruby -o $(SWIGRUBYCOUT) -outdir ./
+@@ -102,7 +106,7 @@
+ 	$(CC) $(filter-out -Werror, $(CFLAGS)) $(PYINC) -fPIC -DSHARED -c -o $@ $<
+ 
+ $(AUDIT2WHYSO): $(AUDIT2WHYLOBJ)
+-	$(CC) $(CFLAGS) $(LDFLAGS) -shared -o $@ $^ -L. -lselinux $(LIBDIR)/libsepol.a -L$(LIBDIR) -Wl,-soname,$@
++	$(CC) $(CFLAGS) $(LDFLAGS) -shared -o $@ $^ -L. -lselinux $(LIBSEPOLDIR)/libsepol.a -L$(LIBDIR) -Wl,-soname,$@
+ 
+ %.o:  %.c policy.h
+ 	$(CC) $(CFLAGS) $(TLSFLAGS) -c -o $@ $<
+@@ -110,15 +114,13 @@
+ %.lo:  %.c policy.h
+ 	$(CC) $(CFLAGS) -fPIC -DSHARED -c -o $@ $<
+ 
++swigify: $(SWIGCOUT)
+ $(SWIGCOUT): $(SWIGIF)
+ 	$(SWIG) $<
+ 
+ $(SWIGRUBYCOUT): $(SWIGRUBYIF)
+ 	$(SWIGRUBY) $<
+ 
+-swigify: $(SWIGIF)
+-	$(SWIG) $<
+-
+ install: all 
+ 	test -d $(LIBDIR) || install -m 755 -d $(LIBDIR)
+ 	install -m 644 $(LIBA) $(LIBDIR)
+@@ -141,8 +143,14 @@
+ relabel:
+ 	/sbin/restorecon $(SHLIBDIR)/$(LIBSO)
+ 
+-clean: 
+-	-rm -f $(LIBPC) $(OBJS) $(LOBJS) $(LIBA) $(LIBSO) $(SWIGLOBJ) $(SWIGSO) $(TARGET) $(AUDIT2WHYSO) *.o *.lo *~
++clean-pywrap:
++	-rm -f $(SWIGLOBJ) $(SWIGSO) audit2why.lo $(AUDIT2WHYSO)
++
++clean-rubywrap:
++	-rm -f $(SWIGRUBYLOBJ) $(SWIGRUBYSO)
++
++clean: clean-pywrap clean-rubywrap
++	-rm -f $(LIBPC) $(OBJS) $(LOBJS) $(LIBA) $(LIBSO) $(TARGET) *.o *.lo *~
+ 
+ distclean: clean
+ 	rm -f $(GENERATED) $(SWIGFILES)

@@ -1,0 +1,2045 @@
+--- hdparm-9.43.orig/debian/changelog
++++ hdparm-9.43/debian/changelog
+@@ -0,0 +1,1253 @@
++hdparm (9.43-1ubuntu1) raring; urgency=low
++
++  * Resynchronise with Debian.  Remaining changes:
++    + debian/control:
++      - Do not depend on lsb-base (we no longer use init script).
++    + debian/hdparm.dirs:
++      - Drop unused /etc/udev/rules.d.
++    + debian/rules, debian/hdparm.udev-script:
++      - Install udev-script, drop init file stuff.
++    + debian/rules:
++      - Install a suspend.d symlink to also call the pm-utils hook on
++        resuming.
++    + debian/hdparm.udev:
++      - Don't trigger the udev rule on sd[a-z]*; yes, this means we aren't
++        handling /dev/sdaa, but it also means we avoid spurious triggers on
++        /dev/sda{1,2,...}.
++  * Dropped changes:
++    + debian/control:
++      - Add Breaks on old udev: no longer needed for upgrades, since the
++        udev version in question dates from Ubuntu 9.04.
++
++ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 03 Dec 2012 17:00:23 +0000
++
++hdparm (9.43-1) unstable; urgency=low
++
++  * New upstream version
++
++ -- Michael Meskes <meskes@debian.org>  Wed, 21 Nov 2012 11:34:15 +0100
++
++hdparm (9.42-1ubuntu2) raring; urgency=low
++
++  * Set DEB_MAKE_ENVVARS differently in order to take advantage of
++    cross-building support in cdbs.
++
++ -- Colin Watson <cjwatson@ubuntu.com>  Sat, 01 Dec 2012 02:18:26 +0000
++
++hdparm (9.42-1ubuntu1) raring; urgency=low
++
++  * Merge from Debian unstable:
++    + Adds support to the udev script for hdparm.conf stanzas that point at
++      a symlink of the device rather than the device itself.  LP: #222458.
++  * Remaining changes:
++    + debian/control:
++      - Add Breaks on old udev
++      - Do not depend on lsb-base (we no longer use init script)
++    + debian/hpdarm.dirs:
++      - Drop unused /etc/udev/rules.d
++    + debian/rules, debian/hdparm.udev-script:
++      - Install udev-script, drop init file stuff
++    + debian/rules:
++      - Install a suspend.d symlink to also call the pm-utils hook on
++        resuming.
++  * Dropped changes, included in Debian:
++    + debian/control:
++      - Add Homepage
++      - cdbs build-dependency bump
++      - Recommend powermgmt-base
++    + debian/rules:
++      - Pass --priority=85 to dh_installudev
++    + debian/hdparm.postinst, debian/rules: move udev rules to /lib/udev
++    + Addition of debian/95hdparm-apm and debian/hdparm-functions
++    + Add a new option to hdparm.conf, apm_battery, which is used in place of
++      apm when we detect that we're on battery power.
++    + debian/hdparm.udev-script, debian/hdparm.init:
++      - only use the 'apm' setting when we're not on battery; when we are on
++        battery, apply the separate 'apm_battery' setting.
++      - Don't call hdparm -f for every drive
++      - don't call sync
++    + debian/hdparm.install:
++      - Use hpdarm.udev instead of .rules
++    + debian/hdparm.conf, debian/hdparm.conf.5: drop 'command_line' example
++  * Dropped changes:
++    - pm-utils Breaks/Replaces: Ubuntu-specific and no longer needed for
++      upgrades.
++    - adding lib/udev for our udev-script: dh_installudev takes care of this
++      for us.
++    - Remove broken symlink on upgrade: pre-lucid upgrades, no longer needed.
++  * Don't trigger the udev rule on sd[a-z]*; yes, this means we aren't
++    handling /dev/sdaa, but it also means we avoid spurious triggers on
++    /dev/sda{1,2,...}
++
++ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 24 Oct 2012 21:41:35 -0700
++
++hdparm (9.42-1) unstable; urgency=low
++
++  * New upstream release
++  * Allow udev rule to process large numbers of devices (closes: #675624)
++  * Changed hdparm-functions to allow links instead of devices in hdparm.conf.
++  * Taken from Ubuntu:
++    Set spindown policy back to -B128 instead of -B127. Too many drives
++    misbehave too badly with this setting, possibly leading to drive failure.
++    We should revisit this once we understand why people's drives are spinning
++    back *up* so frequently (closes: #684241)
++
++ -- Michael Meskes <meskes@debian.org>  Tue, 09 Oct 2012 11:19:21 +0200
++
++hdparm (9.39-1) unstable; urgency=low
++
++  * New upstream version (closes: #602522, #631614, #639660)
++  * Added myself to uploaders
++  * Added Homepage field (closes: #533190, #545005)
++  * Changed linking stage to not strip binary, otherwise the debug package
++    would be empty
++  * Renamed XC-Package-Type to Package-Type
++  * No longer install idectl, that relies on options that were removed, and
++    ultrabayd, that relies on idectl (closes: #511283)
++  * Install UDEV rule to /lib/udev/rules.d (closes: #563762, #622568) 
++  * Bumped build dependency on debhelper for correct udev handling.
++  * Install wiper.sh into its own subdirectory together with its README.txt
++  * Recommend powermgmt-base
++  * Thanks to Dmitry Smirnov <onlyjob@member.fsf.org>:
++    + Added description to init file 
++    + Updated watch file to fetch from sourceforge
++    + Clean up old rules from /etc/udev in postinst
++  * Taken from Ubuntu:
++    + pm-utils script 95-hdparm-apm:
++      - run hdparm on wakeup (closes: #468307)
++      - full integration with pm-utils (closes: #510676)
++      - adjust hard drive APM settings (closes: #664041)
++    + /lib/hdparm/hdparm-functions:
++      -  prepare to replace our init script eventually
++      -  special handling for Firewire/USB (closes: #654873)
++    + hdparm.init:
++      - only use the 'apm' setting when we're not on battery; when we are on
++        battery, apply the separate 'apm_battery' setting.
++      - Don't call hdparm -f for every drive; no clear rationale was ever given
++        for doing this, and doing so slows down hard drive access at boot time.
++      - also don't call sync... (closes: #546813)
++    * hdparm.conf.5
++  * hdparm.conf: added apm_battery, removed command_line example
++  * Bumped Standards-Version to 3.9.3, no changes needed
++
++ -- Michael Meskes <meskes@debian.org>  Tue, 27 Mar 2012 12:10:19 +0200
++
++hdparm (9.37-0ubuntu4) quantal; urgency=low
++
++  * debian/hdparm-functions, debian/95hdparm-apm: set our spindown policy
++    back to -B128 instead of -B127.  Too many drives misbehave too badly
++    with this setting, possibly leading to drive failure.  We should revisit
++    this once we understand why people's drives are spinning back *up* so
++    frequently.  LP: #952556.
++
++ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 30 Apr 2012 23:04:05 -0700
++
++hdparm (9.37-0ubuntu3) precise; urgency=low
++
++  * debian/hdparm-functions: if we're going to set -B127 on battery, we
++    should also set a sane (not too low) spindown time, to avoid wearing out
++    disks.  LP: #952556.
++
++ -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 24 Mar 2012 03:06:35 -0700
++
++hdparm (9.37-0ubuntu2) precise; urgency=low
++
++  * debian/hdparm-functions, debian/95hdparm-apm, debian/hdparm.conf.5: if we
++    really want disk policy to allow spinning down on battery, we need to set
++    -B *127*, not -B 128.  The comments in the historical pm-utils script
++    make it clear that this was the intent all along.  Thanks to Anmar Oueja
++    for catching this!
++
++ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 04 Jan 2012 13:57:57 -0800
++
++hdparm (9.37-0ubuntu1) oneiric; urgency=low
++
++  * New upstream version (LP: #793660)
++    - Really fix -B flag / IDENTIFY cdb
++
++ -- Roland Dreier <roland@digitalvampire.org>  Mon, 06 Jun 2011 13:34:41 -0700
++
++hdparm (9.32-1ubuntu3) natty; urgency=low
++
++  * debian/95hdparm-apm: Handle powersaving and suspend separately, and only
++    apply -S settings on resuming, not on powersaving events. Thanks heckheck!
++    (LP: #738757)
++
++ -- Martin Pitt <martin.pitt@ubuntu.com>  Thu, 31 Mar 2011 18:03:03 +0200
++
++hdparm (9.32-1ubuntu2) natty; urgency=low
++
++  * debian/95hdparm-apm: Also handle -S option from /etc/hdparm.conf. (side
++    issue in LP #738757).
++  * debian/rules: Install a suspend.d symlink to also call the pm-utils hook
++    on resuming. (LP: #738757)
++
++ -- Martin Pitt <martin.pitt@ubuntu.com>  Thu, 24 Mar 2011 22:49:48 +0100
++
++hdparm (9.32-1ubuntu1) natty; urgency=low
++
++  * Merge from debian unstable.  Remaining changes:
++    + debian/control:
++      - Do not depend on lsb-base (we no longer use init script)
++      - Add Homepage
++      - Add Breaks on old udev
++      - Bump debhelper depends for dh_installudev changes
++      - Recommend powermgmt-base, so we can use on_ac_power to detect if we're
++        on battery.
++      - declare a Breaks: on pm-utils (<< 1.2.5-2ubuntu8), due to the change of
++        the hdparm-functions API.
++      - Replace pm-utils versions which shipped that script.
++    + debian/hdparm.install:
++      - Use hpdarm.udev instead of .rules
++      - move hdparm-functions to /lib/hdparm.
++    + debian/hpdarm.udev:
++      - refactor to use the above functions instead of embedding a parser.
++    + debian/hpdarm.dirs:
++      - Drop unused /etc/udev/rules.d, add lib/udev for our udev-script
++    + debian/rules, debian/hdparm.udev-script:
++      - Install udev-script, drop init file stuff
++      - Pass --priority=85 to dh_installudev
++    + debian/hdparm.postinst: The transitional code to create
++      /etc/udev/rules.d/z60_hdparm.rules also got wrongly executed on new
++      installs, leaving a broken symlink behind. However, we do not need this
++      in the first place, so just throw away the code completely.
++    + debian/hdparm.preinst: Remove broken symlink on upgrade.
++    + Add a new option to hdparm.conf, apm_battery, which is used in place of
++      apm when we detect that we're on battery power.
++    + debian/hdparm.udev-script, debian/hdparm.init:
++      - only use the 'apm' setting when we're not on battery; when we are on
++        battery, apply the separate 'apm_battery' setting.
++      - Don't call hdparm -f for every drive; no clear rationale was ever given
++        for doing this, and doing so slows down hard drive access at boot time.
++      - also don't call sync...
++    + debian/hdparm-functions:
++      - break out a barebones parser for /etc/hdparm.conf and install it to
++        /usr/lib/pm-utils, for use in /usr/lib/pm-utils/sleep.d/95hdparm-apm.
++      - refactor so that it can be used by the udev script as well
++      - drop handling of "command_line" here - we shouldn't be running this
++        for every hard drive and every power event, this should be supported
++        only by an init script (if at all)
++      - Don't apply default APM policy to Firewire or USB devices when running
++        from udev (LP: #515023, #548513).
++      - Fetch ID_PATH from 'udevadm info' if it isn't already set in the
++        environment (LP: #567182).
++      - Factor Firewire/USB check out into a new hdparm_try_apm function.
++    + Add debian/95hdparm-apm:
++      - pm-utils script to adjust hard drive APM settings
++        after resuming. This was previously shipped in pm-utils, but is more
++        appropriate here (see /usr/share/doc/pm-utils/README.distributions).
++      - Skip Firewire and USB devices.
++    + debian/hdparm.conf, debian/hdparm.conf.5: drop 'command_line' example
++
++ -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 25 Nov 2010 20:03:22 +0100
++
++hdparm (9.32-1) unstable; urgency=low
++
++  * New upstream version (closes: #574897)
++    - Flags -B and -M should now be working
++    - Fixes alignment issues
++    - Correctly handles errno of EBADE (closes: #557384)
++  * Don't make a symlink if it already exists (closes: #593963)
++  * init script can follow symlinks to block devices now
++    (closes: #533535, #546045)
++  * Include wiper.sh in contrib/
++
++ -- Stephen Gran <sgran@debian.org>  Thu, 30 Sep 2010 15:39:21 +0100
++
++hdparm (9.27-2.1) unstable; urgency=low
++
++  * Non-maintainer upload.
++  * Ensure that RAID sync is always restored when the init script ends
++    (closes: #583110)
++  * Include licence text directly in copyright file, as it is not exactly
++    the same as the BSD licence text
++
++ -- Ben Hutchings <ben@decadent.org.uk>  Sun, 01 Aug 2010 23:44:20 +0100
++
++hdparm (9.27-2ubuntu2) maverick; urgency=low
++
++  * debian/hdparm.conf, debian/hdparm.conf.5: drop 'command_line' example
++    from the default hdparm.conf since it's no longer supported, and update
++    the manpage to match.  LP: #568120.    
++
++ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 14 Jun 2010 14:47:50 -0700
++
++hdparm (9.27-2ubuntu1) maverick; urgency=low
++
++  * Merge from Debian unstable (LP: #516249); remaining changes:
++    + debian/control:
++      - Do not depend on lsb-base (we no longer use init script)
++      - Add Homepage
++      - Add Breaks on old udev
++      - Bump debhelper depends for dh_installudev changes
++      - Recommend powermgmt-base, so we can use on_ac_power to detect if we're
++        on battery.
++      - declare a Breaks: on pm-utils (<< 1.2.5-2ubuntu8), due to the change of
++        the hdparm-functions API.
++      - Replace pm-utils versions which shipped that script.
++    + debian/hdparm.install:
++      - Use hpdarm.udev instead of .rules
++      - move hdparm-functions to /lib/hdparm.
++    + debian/hpdarm.udev:
++      - refactor to use the above functions instead of embedding a parser.
++    + debian/hpdarm.dirs:
++      - Drop unused /etc/udev/rules.d, add lib/udev for our udev-script
++    + debian/rules, debian/hdparm.udev-script:
++      - Install udev-script, drop init file stuff
++      - Pass --priority=85 to dh_installudev
++    + debian/hdparm.postinst: The transitional code to create
++      /etc/udev/rules.d/z60_hdparm.rules also got wrongly executed on new
++      installs, leaving a broken symlink behind. However, we do not need this
++      in the first place, so just throw away the code completely.
++    + debian/hdparm.preinst: Remove broken symlink on upgrade.
++    + Add a new option to hdparm.conf, apm_battery, which is used in place of
++      apm when we detect that we're on battery power.
++    + debian/hdparm.udev-script, debian/hdparm.init:
++      - only use the 'apm' setting when we're not on battery; when we are on
++        battery, apply the separate 'apm_battery' setting.
++      - Don't call hdparm -f for every drive; no clear rationale was ever given
++        for doing this, and doing so slows down hard drive access at boot time.
++      - also don't call sync...
++    + debian/hdparm-functions:
++      - break out a barebones parser for /etc/hdparm.conf and install it to
++        /usr/lib/pm-utils, for use in /usr/lib/pm-utils/sleep.d/95hdparm-apm.
++      - refactor so that it can be used by the udev script as well
++      - drop handling of "command_line" here - we shouldn't be running this
++        for every hard drive and every power event, this should be supported
++        only by an init script (if at all)
++      - Don't apply default APM policy to Firewire or USB devices when running
++        from udev (LP: #515023, #548513).
++      - Fetch ID_PATH from 'udevadm info' if it isn't already set in the
++        environment (LP: #567182).
++      - Factor Firewire/USB check out into a new hdparm_try_apm function.
++    + Add debian/95hdparm-apm:
++      - pm-utils script to adjust hard drive APM settings
++        after resuming. This was previously shipped in pm-utils, but is more
++        appropriate here (see /usr/share/doc/pm-utils/README.distributions).
++      - Skip Firewire and USB devices.
++
++ -- Benjamin Drung <bdrung@ubuntu.com>  Fri, 07 May 2010 11:39:54 +0200
++
++hdparm (9.27-2) unstable; urgency=low
++
++  * Stop unconditionally stripping hdparm during build (closes: #568774)
++
++ -- Stephen Gran <sgran@debian.org>  Mon, 08 Feb 2010 18:47:29 +0000
++
++hdparm (9.27-1) unstable; urgency=low
++
++  * New upstream version
++
++ -- Stephen Gran <sgran@debian.org>  Sun, 17 Jan 2010 18:02:44 +0000
++
++hdparm (9.15-1ubuntu9) lucid; urgency=low
++
++  * Fetch ID_PATH from 'udevadm info' if it isn't already set in the
++    environment (LP: #567182).
++  * Factor Firewire/USB check out into a new hdparm_try_apm function.
++  * debian/95hdparm-apm: Skip Firewire and USB devices.
++
++ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 22 Apr 2010 17:35:22 +0100
++
++hdparm (9.15-1ubuntu8) lucid; urgency=low
++
++  * Don't apply default APM policy to Firewire or USB devices when running
++    from udev (LP: #515023, #548513).
++
++ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 16 Apr 2010 16:19:29 +0100
++
++hdparm (9.15-1ubuntu7) lucid; urgency=low
++
++  * Add debian/95hdparm-apm: pm-utils script to adjust hard drive APM settings
++    after resuming. This was previously shipped in pm-utils, but is more
++    appropriate here (see /usr/share/doc/pm-utils/README.distributions).
++  * debian/control: Replace pm-utils versions which shipped that script.
++
++ -- Martin Pitt <martin.pitt@ubuntu.com>  Wed, 25 Nov 2009 11:54:19 +0100
++
++hdparm (9.15-1ubuntu6) lucid; urgency=low
++
++  * debian/hdparm.init, debian/hdparm.udev-script: also don't call sync...
++  * debian/hdparm-functions: refactor so that it can be used by the udev
++    script as well
++    - drop handling of "command_line" here - we shouldn't be running this
++      for every hard drive and every power event, this should be supported
++      only by an init script (if at all)
++  * debian/hdparm.install: move hdparm-functions to /lib/hdparm.
++  * debian/hdparm.udev-script: refactor to use the above functions instead of
++    embedding a parser.  LP: #321219.
++  * debian/control: declare a Breaks: on pm-utils (<< 1.2.5-2ubuntu8), due to
++    the change of the hdparm-functions API.
++
++ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 13 Nov 2009 09:38:52 +0000
++
++hdparm (9.15-1ubuntu5) lucid; urgency=low
++
++  * debian/hdparm.init, debian/hdparm.udev-script: Don't call hdparm -f for
++    every drive; no clear rationale was ever given for doing this, and doing
++    so slows down hard drive access at boot time.
++
++ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 12 Nov 2009 13:08:24 +0000
++
++hdparm (9.15-1ubuntu4) karmic; urgency=low
++
++  * Recommend powermgmt-base, so we can use on_ac_power to detect if we're on
++    battery.
++  * Add a new option to hdparm.conf, apm_battery, which is used in place of
++    apm when we detect that we're on battery power.
++  * debian/hdparm.udev-script, debian/hdparm.init: only use the 'apm' setting
++    when we're not on battery; when we are on battery, apply the separate
++    'apm_battery' setting.
++  * debian/hdparm-functions: break out a barebones parser for
++    /etc/hdparm.conf and install it to /usr/lib/pm-utils, for use in
++    /usr/lib/pm-utils/sleep.d/95hdparm-apm.  LP: #238555.
++
++ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 05 Oct 2009 22:57:20 +0000
++
++hdparm (9.15-1ubuntu3) karmic; urgency=low
++
++  * debian/hdparm.postinst: The transitional code to create
++    /etc/udev/rules.d/z60_hdparm.rules also got wrongly executed on new
++    installs, leaving a broken symlink behind. However, we do not need this in
++    the first place, so just throw away the code completely.
++  * debian/hdparm.preinst: Remove broken symlink on upgrade.
++
++ -- Martin Pitt <martin.pitt@ubuntu.com>  Fri, 18 Sep 2009 12:49:04 +0200
++
++hdparm (9.15-1ubuntu2) karmic; urgency=low
++
++  * Fix crash with -B when HDIO_DRIVE_CMD(identify) fails (LP: #396837).
++
++ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 14 Jul 2009 14:04:15 +0100
++
++hdparm (9.15-1ubuntu1) karmic; urgency=low
++
++  * Merge from debian unstable (LP: #311451), remaining changes:
++    + debian/control:
++      - Do not depend on lsb-base (we no longer use init script)
++      - Add Homepage
++      - Add Breaks on old udev
++      - Bump debhelper depends for dh_installudev changes
++    + debian/hdparm.install, debian/hpdarm.udev:
++      - Use hpdarm.udev instead of .rules
++    + debian/hpdarm.dirs:
++      - Drop unused /etc/udev/rules.d, add lib/udev for our udev-script
++    + debian/rules, debian/hdparm.udev-script:
++      - Install udev-script, drop init file stuff
++      - Pass --priority=85 to dh_installudev
++
++ -- Michael Terry <michael.terry@canonical.com>  Mon, 15 Jun 2009 09:44:02 -0400
++
++hdparm (9.15-1) unstable; urgency=low
++
++  * New upstream version (closes: #505284)
++  * opens devices with O_RDONLY (closes: #522091, #526516)
++
++ -- Stephen Gran <sgran@debian.org>  Sat, 13 Jun 2009 00:45:36 +0100
++
++hdparm (8.9-3ubuntu3) jaunty; urgency=low
++
++  * Add Breaks to ensure the right version of udev is used.
++
++ -- Scott James Remnant <scott@ubuntu.com>  Fri, 09 Jan 2009 11:49:03 +0000
++
++hdparm (8.9-3ubuntu2) jaunty; urgency=low
++
++  * Update for new udev rules location.
++  * debian/hdparm.rules: Rename to debian/hdparm.udev so dh_installudev
++    can pick it up.
++  * debian/rules: pass --priority=85 to dh_installudev, remove hand-install.
++  * debian/hdparm.dirs: no need for /etc/udev/rules.d
++  * debian/control: bump dependencies on debhelper and cdbs
++
++ -- Scott James Remnant <scott@ubuntu.com>  Wed, 07 Jan 2009 10:15:55 +0000
++
++hdparm (8.9-3ubuntu1) jaunty; urgency=low
++
++  * Merge from debian unstable, remaining changes: LP: #313451
++    - remove init script, install udev rules instead
++    - debian/control: Do not depend on lsb-base
++  * Add Homepage field LP: #311453
++
++ -- Bhavani Shankar <right2bhavi@gmail.com>  Sat, 03 Jan 2009 17:58:22 +0530
++
++hdparm (8.9-3) unstable; urgency=low
++
++  * Fix output formatting for drives configured from /etc/default/hdparm
++    (closes: #494660)
++  * Add documentation about changing device names (closes: #421087)
++
++ -- Stephen Gran <sgran@debian.org>  Wed, 17 Dec 2008 22:45:28 +0000
++
++hdparm (8.9-2ubuntu1) jaunty; urgency=low
++
++  * Merge from debian unstable, remaining changes:
++    - remove init script, install udev rules instead
++    - debian/control: Do not depend on lsb-base
++
++ -- Michael Vogt <michael.vogt@ubuntu.com>  Mon, 10 Nov 2008 14:02:31 +0100
++
++hdparm (8.9-2) unstable; urgency=low
++
++  * Remove stale stop links (closes: #497903)
++
++ -- Stephen Gran <sgran@debian.org>  Fri, 05 Sep 2008 11:23:20 +0100
++
++hdparm (8.9-1ubuntu1) intrepid; urgency=low
++
++  * Merge from debian unstable, remaining changes:
++    - remove init script, install udev rules instead
++    - debian/control: Do not depend on lsb-base
++
++ -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 19 Jun 2008 10:40:06 +0200
++
++hdparm (8.9-1) unstable; urgency=low
++
++  * New upstream version
++  * Update standars version to 3.8.0 (no changes)
++
++ -- Stephen Gran <sgran@debian.org>  Tue, 17 Jun 2008 19:08:10 +0100
++
++hdparm (8.8-1) unstable; urgency=low
++
++  * New upstream version
++    - Document that security-* switches are standalone (closes: #422341)
++
++ -- Stephen Gran <sgran@debian.org>  Wed, 11 Jun 2008 23:36:59 +0100
++
++hdparm (8.7-1) unstable; urgency=low
++
++  * New upstream release
++  * Fixed incorrect LSB header Default-Stop (closes: #476110)
++
++ -- Stephen Gran <sgran@debian.org>  Tue, 03 Jun 2008 00:36:06 +0100
++
++hdparm (8.6-1ubuntu1) hardy; urgency=low
++
++  * Merge from Debian unstable (LP: #203736). Remaining Ubuntu changes:
++    - remove init script, install udev rules instead
++    - set Ubuntu maintainer address.
++    - debian/control: Do not depend on lsb-base
++  * Fixes "udev rules only for hd[a-z], not sd[a-z]" (LP: #156893)
++  * Remove hdparm init script and make it not re-appear in next merges
++    - debian/rules: add "--onlyscripts" to DEB_DH_INSTALLINIT_ARGS, so that the
++      init script does not get installed
++    - debian/preinst: bump version in rm_conffile call
++
++ -- Daniel Hahler <ubuntu@thequod.de>  Fri, 28 Mar 2008 21:44:38 +0100
++
++hdparm (8.6-1) unstable; urgency=low
++
++  * New upstream version
++  * Udev rule can also match for sata devices (closes: #471401)
++
++ -- Stephen Gran <sgran@debian.org>  Tue, 18 Mar 2008 01:06:37 +0000
++
++hdparm (8.3-1) unstable; urgency=low
++
++  * New upstream release
++  * easier config of spindown time (closes: #462766)
++  * Update Standards-Version (no changes)
++
++ -- Stephen Gran <sgran@debian.org>  Tue, 19 Feb 2008 22:39:32 +0000
++
++hdparm (7.7-1ubuntu1) hardy; urgency=low
++
++  * Merge from debian unstable, remaining changes:
++    - remove init script, install udev rules instead
++    - set Ubuntu maintainer address.
++
++ -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 15 Nov 2007 12:39:58 +0100
++
++hdparm (7.7-1) unstable; urgency=low
++
++  * New upstream version
++
++ -- Stephen Gran <sgran@debian.org>  Sat, 11 Aug 2007 12:35:12 +0100
++
++hdparm (7.6-1) unstable; urgency=low
++
++  * New upstream version
++  * Update conffile handling in preinst
++
++ -- Stephen Gran <sgran@debian.org>  Sun, 15 Jul 2007 15:50:24 +0100
++
++hdparm (7.5-1ubuntu1) gutsy; urgency=low
++
++  * Merge from debian unstable, remaining changes:
++    - remove init script, install udev rules instead
++    - set Ubuntu maintainer address.
++
++ -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 14 Jun 2007 09:54:59 +0200
++
++hdparm (7.5-1) unstable; urgency=low
++
++  * New upstream version
++
++ -- Stephen Gran <sgran@debian.org>  Wed, 06 Jun 2007 21:13:36 +0100
++
++hdparm (7.3-1) unstable; urgency=low
++
++  * New upstream version
++    - partial fix for #423186, rest patched, so (closes: #423186)
++  * Stop installing useless stop links in rc0 and rc6 (closes: #422795)
++
++ -- Stephen Gran <sgran@debian.org>  Thu, 31 May 2007 02:34:11 +0100
++
++hdparm (7.1-2ubuntu1) gutsy; urgency=low
++
++  * Merge from debian unstable, remaining changes:
++    - remove init script, install udev rules instead
++    - set Ubuntu maintainer address.
++
++ -- Michael Vogt <michael.vogt@ubuntu.com>  Mon, 21 May 2007 08:47:38 +0200
++
++hdparm (7.1-2) unstable; urgency=low
++
++  * Don't ship a binary in contrib/ (even though upstream puts it in the
++    tarball)
++
++ -- Stephen Gran <sgran@debian.org>  Sun, 29 Apr 2007 03:33:05 +0100
++
++hdparm (7.1-1) unstable; urgency=low
++
++  * New upstream version
++  * Add debian/patches/40_hdparm_no_strip.dpatch to keep build system from
++    stripping hdparm binary before dh_strip can get to it.
++
++ -- Stephen Gran <sgran@debian.org>  Sun, 29 Apr 2007 03:02:39 +0100
++
++hdparm (6.9-2) unstable; urgency=low
++
++  * Typo fix in manpage (closes: #396809)
++  * Better explain get/set options (closes: #397792)
++
++ -- Stephen Gran <sgran@debian.org>  Sat, 17 Feb 2007 03:30:06 +0000
++
++hdparm (6.9-1ubuntu2) feisty; urgency=low
++
++  * Rebuild for changes in the amd64 toolchain.
++  * Set Ubuntu maintainer address.
++
++ -- Matthias Klose <doko@ubuntu.com>  Mon,  5 Mar 2007 01:18:04 +0000
++
++hdparm (6.9-1ubuntu1) feisty; urgency=low
++
++  * Merge from debian unstable, remaining changes:
++    - remove init script, install udev rules instead
++
++  * Update udev script from init script
++
++ -- Scott James Remnant <scott@ubuntu.com>  Mon, 27 Nov 2006 14:14:39 +0000
++
++hdparm (6.9-1) unstable; urgency=low
++
++  * New upstream version
++  * Add new -s option to init script, conf file, and manpage
++
++ -- Stephen Gran <sgran@debian.org>  Wed, 25 Oct 2006 16:24:22 +0100
++
++hdparm (6.8-1) unstable; urgency=low
++
++  * New upstream version
++
++ -- Stephen Gran <sgran@debian.org>  Mon, 16 Oct 2006 18:14:36 +0100
++
++hdparm (6.7-1) unstable; urgency=low
++
++  * New upstream version
++  * Fix override disparity for -dbg package
++  * Versioned Build-Dep on dpkg-dev since it now uses ${binary:Version}
++
++ -- Stephen Gran <sgran@debian.org>  Thu,  5 Oct 2006 22:37:59 +0100
++
++hdparm (6.6-5) unstable; urgency=low
++
++  * Make -C actually try a second time (closes: #390079)
++
++ -- Stephen Gran <sgran@debian.org>  Sat, 30 Sep 2006 15:08:01 +0100
++
++hdparm (6.6-4) unstable; urgency=low
++
++  * hdparm-dbg should Depend on hdparm, how about?
++
++ -- Stephen Gran <sgran@debian.org>  Thu, 28 Sep 2006 11:06:31 +0100
++
++hdparm (6.6-3) unstable; urgency=low
++
++  * s/mountvirtfs/mountdevsubfs/ in init script (closes: #386340)
++  * Some init dependency tuning
++  * Apply patch from Norbert Buchmuller <norbi.spam@nix.hu> to make it safer
++    to run hdparm on a degraded software raid array (closes: #366333)
++  * Split out the old unformatted changelog entries to quiet lintian
++
++ -- Stephen Gran <sgran@debian.org>  Tue, 19 Sep 2006 00:44:08 +0100
++
++hdparm (6.6-2) unstable; urgency=low
++
++  * Add -dbg package
++    This requires incrementing the versioned dep on debhelper
++  * Increment Standards-Version to 3.7.2 (no changes)
++
++ -- Stephen Gran <sgran@debian.org>  Thu, 18 May 2006 23:59:56 +0100
++
++hdparm (6.6-1ubuntu3) edgy; urgency=low
++
++  * Remove the init script again.
++
++ -- Scott James Remnant <scott@ubuntu.com>  Thu, 20 Jul 2006 23:33:21 +0100
++
++hdparm (6.6-1ubuntu2) edgy; urgency=low
++
++  * Repair CDBS damage ... silently enabling features depending on the
++    filename of files that may have existed before is BAD, OKAY?
++
++ -- Scott James Remnant <scott@ubuntu.com>  Mon,  3 Jul 2006 23:03:13 +0100
++
++hdparm (6.6-1ubuntu1) edgy; urgency=low
++
++  [ Ongoing Merge Process ]
++  * Merge from debian unstable.
++
++  [ Scott James Remnant ]
++  * Drop conffile move now dapper is released.
++
++ -- Scott James Remnant <scott@ubuntu.com>  Wed, 28 Jun 2006 23:44:49 +0100
++
++hdparm (6.6-1) unstable; urgency=low
++
++  * New upstream release
++  * man page fixups for -a (closes: #362670)
++  * Change to using comparison (==) rather than assignment (=) operators in
++    hdparm's udev rules.
++  * Stop printing nulls (closes: #363132)
++  * Add APM/ACPI discussion to README.Debian (closes: #327442)
++
++ -- Stephen Gran <sgran@debian.org>  Tue, 18 Apr 2006 13:28:33 +0100
++
++hdparm (6.3-3ubuntu1) dapper; urgency=low
++
++  * Resynchronise with Debian.
++  * Drop init script completely, udev will run the right magic for each
++    new block device anyway.
++
++ -- Scott James Remnant <scott@ubuntu.com>  Thu, 15 Dec 2005 01:56:46 +0000
++
++hdparm (6.3-3) unstable; urgency=low
++
++  * Init script fixup: s/_/-/ (closes: #340685)
++
++ -- Stephen Gran <sgran@debian.org>  Fri, 25 Nov 2005 09:15:46 +0000
++
++hdparm (6.3-2) unstable; urgency=low
++
++  * Brown paper bag release - add dpatch to B-D (closes:#340595)
++
++ -- Stephen Gran <sgran@debian.org>  Thu, 24 Nov 2005 13:21:52 +0000
++
++hdparm (6.3-1) unstable; urgency=low
++
++  * New Upstream Version (closes: #340171)
++  * Init dependency information added (closes: #335309)
++  * Add support for new user-master option to init script, and document same
++  * Switch to dpatch, and start adding tiny patches there
++
++ -- Stephen Gran <sgran@debian.org>  Mon, 21 Nov 2005 23:44:43 +0000
++
++hdparm (6.1-7ubuntu2) dapper; urgency=low
++
++  * Fix incorrect syntax in hdparm.rules file.
++  * Install hdparm.rules as /etc/udev/rules.d/85-hdparm.rules to match
++    new udev packages; move file if customised in ubuntu1.
++
++ -- Scott James Remnant <scott@ubuntu.com>  Fri, 18 Nov 2005 10:03:15 +0000
++
++hdparm (6.1-7ubuntu1) dapper; urgency=low
++
++  * Resynchronise with Debian.
++    (Yes, really, me; not any of those imposters!)
++    - Kept versioned-dep on lsb-base.
++    - Kept include of /etc/default/rcS in hdparm.init as we check VERBOSE,
++      I'm not sure why Debian don't do that.
++    - Merge both sets of init script changes to roughly produce the same
++      effect, less logging than Debian but with combined init and hotplug
++      script.
++  * Dropped postrm and postinst, instead install hdparm.rules directly into
++    /etc/udev/rules.d, we have no need to mess about with symlinks.
++  * Dropped support for /etc/default/hdparm as it doesn't really work with
++    udev anyway, and there should only be one way to do things, damnit.
++
++ -- Scott James Remnant <scott@ubuntu.com>  Tue, 08 Nov 2005 07:20:28 +0000
++
++hdparm (6.1-7) unstable; urgency=low
++
++  * Make eval_value fail if unknown value passed to it (closes: #329443)
++  * Get rid of deprecated dev.d/ file (closes: #329450)
++  * Add /etc/udev/rules.d/ to package (closes: #329731)
++
++ -- Stephen Gran <sgran@debian.org>  Sat, 24 Sep 2005 01:03:51 +0100
++
++hdparm (6.1-6) unstable; urgency=low
++
++  * Migrate from dev.d to udev/hdparm.rules (closes: #329026)
++  * remerge manpage patch for -M (closes: #325237)
++
++ -- Stephen Gran <sgran@debian.org>  Mon, 19 Sep 2005 08:19:27 +0100
++
++hdparm (6.1-5) unstable; urgency=low
++
++  * Change udev script name to end in .dev (hmm, really should have
++    investigated that more) (closes: #322636)
++
++ -- Stephen Gran <sgran@debian.org>  Fri, 12 Aug 2005 08:56:00 -0400
++
++hdparm (6.1-4) unstable; urgency=low
++
++  * Grr, I _would_ have had a working solution, if only I actually installed
++    all the files.
++
++ -- Stephen Gran <sgran@debian.org>  Thu, 11 Aug 2005 09:57:28 -0400
++
++hdparm (6.1-3) unstable; urgency=low
++
++  * Finally, I think I have a working udev method (much thanks to Ubuntu for
++    doing rather a lot of the work getting it there)
++    (closes: #274109, #312949)
++  * security-freeze support for init script (closes: #317675)
++  * hdparm.conf manpage written and included (closes: #319928)
++
++ -- Stephen Gran <sgran@debian.org>  Wed, 10 Aug 2005 15:26:36 -0400
++
++hdparm (6.1-2) unstable; urgency=low
++
++  * Typo fixups in /etc/default/hdparm (closes: #310517)
++
++ -- Stephen Gran <sgran@debian.org>  Tue, 24 May 2005 10:08:42 -0400
++
++hdparm (6.1-1ubuntu2) breezy; urgency=low
++
++  * Fix the hdparm.dev script to only execute hdparm for the block device
++    being created, rather than for every block device configured in the file.
++    This prevents an hdparm storm bringing down the machine.  (Ubuntu: #16433)
++
++ -- Scott James Remnant <scott@ubuntu.com>  Tue, 27 Sep 2005 21:00:19 +0100
++
++hdparm (6.1-1ubuntu1) breezy; urgency=low
++
++  * Resynchronise with Debian, resolving merge conflicts.
++
++ -- Adam Conrad <adconrad@0c3.net>  Thu, 21 Apr 2005 09:33:45 +0000
++
++hdparm (6.1-1) unstable; urgency=low
++
++  * New upstream version
++
++ -- Stephen Gran <sgran@debian.org>  Mon, 18 Apr 2005 14:40:21 -0400
++
++hdparm (6.0-1) unstable; urgency=low
++
++  * New upstream version
++    - Includes WIN_SECURITY_FREEZE_LOCK (closes: #302774)
++  * Allow multiple disks to be set up at once in /etc/default/hdparm
++    (closes: #296368)
++
++ -- Stephen Gran <sgran@debian.org>  Sat, 16 Apr 2005 12:36:14 -0400
++
++hdparm (5.9-4ubuntu1) breezy; urgency=low
++
++  * Resynchronise with Debian.
++
++ -- Michael Vogt <michael.vogt@ubuntu.com>  Fri, 15 Apr 2005 15:30:28 +0200
++
++hdparm (5.9-4) unstable; urgency=low
++
++  * Allow overriding of (rather simple minded) built-in safety checks
++    in init script (closes: #299330)
++  * Patch to output sectors instead of bytes on kernels that support
++    BLKGETSIZE64 (closes: #299109)
++  * Reorganize README.Debian, and better document the init script (hopefully)
++  * Add documentation to init script and conf file, and make indenting more
++    readable in init script (closes: #299440)
++
++ -- Stephen Gran <sgran@debian.org>  Mon, 14 Mar 2005 06:05:55 -0500
++
++hdparm (5.9-3) unstable; urgency=low
++
++  * Don't skip drives in hdparm.init if $ROOTFS is unset (closes: #296364)
++
++ -- Stephen Gran <sgran@debian.org>  Mon, 21 Feb 2005 22:11:40 -0500
++
++hdparm (5.9-2) unstable; urgency=low
++
++  * Readability fixup in hdparm.init (closes: #294761) (thanks Thomas Hood
++    <jdthood@aglu.demon.nl>)
++  * Test for existance of device before running hdparm on it.  This doesn't
++    really fix the problem of things like udev creating the device files so
++    slowly, but it allows the init script to run to completion, instead of
++    bailing due to set -e (closes: #249446)
++  * Set up the infrastructure for a 2 stage call at boot time.  Unfortunately,
++    the admin will have to do a little work themselves to configure this, but
++    doing it automagically appears impossible in all situations, so I will not
++    push it much further.  (closes: #250232, #290629)
++
++ -- Stephen Gran <sgran@debian.org>  Thu, 17 Feb 2005 22:00:33 -0500
++
++hdparm (5.9-1) unstable; urgency=low
++
++  * New upstream version
++    - fixes -W switch (closes: #293378)
++
++ -- Stephen Gran <sgran@debian.org>  Fri,  4 Feb 2005 08:56:57 -0500
++
++hdparm (5.8-1ubuntu4) hoary; urgency=low
++
++  * Force the /etc/dev.d/block/hdparm.dev script to be executable
++    if upgrading from a version older than this one.  dpkg won't
++    touch the mode on this file.
++
++ -- Jeff Bailey <jbailey@ubuntu.com>  Mon, 21 Mar 2005 07:15:54 -0500
++
++hdparm (5.8-1ubuntu3) hoary; urgency=low
++
++  * ensure that the hdparm dev script is +x (Ubuntu: #7829)
++
++ -- Thom May <thom@planetarytramp.net>  Sat, 19 Mar 2005 22:46:43 +0000
++
++hdparm (5.8-1ubuntu2) hoary; urgency=low
++
++  * Add udev script to run hdparm on newly created devices. (Ubuntu: #4356)
++
++ -- Thom May <thom@ubuntu.com>  Mon,  7 Feb 2005 12:50:01 +0000
++
++hdparm (5.8-1ubuntu1) hoary; urgency=low
++
++  * Resynchronise with Debian.
++
++ -- Scott James Remnant <scott@canonical.com>  Sat, 27 Nov 2004 12:47:14 +0000
++
++hdparm (5.8-1) unstable; urgency=low
++
++  * New Upstream version
++    - -h output now goes to stdout rather than stderr
++      (closes: #270510)
++  * Mention config file in manpage (closes: #272641)
++
++ -- Stephen Gran <sgran@debian.org>  Fri, 26 Nov 2004 11:57:13 -0500
++
++hdparm (5.7-1ubuntu1) hoary; urgency=low
++
++  * Resynchronise with Debian.
++
++ -- Thom May <thom@canonical.com>  Wed, 27 Oct 2004 21:40:43 +0100
++
++hdparm (5.7-1) unstable; urgency=low
++
++  * New upstream release
++    - fixes endian problems (segfault with -i) (closes: #268725)
++  * Stop shipping empty rcS.d (why did I do that?) (closes: #270377)
++
++ -- Stephen Gran <sgran@debian.org>  Sun, 12 Sep 2004 14:00:36 -0400
++
++hdparm (5.6-0.1) unstable; urgency=medium
++
++  * Non-maintainer upload.
++  * New upstream release, blessed by Stephen Gran, original maintainer. This
++    new version allows to set up parameters on IDE disks supported by the new
++    libata kernel interface, that sees them as SCSI disks. hdparm prior to 5.6
++    refuse to set up parameters on SCSI disks (closes: #266903).
++
++ -- David Martínez Moreno <ender@debian.org>  Fri, 20 Aug 2004 16:05:19 +0200
++
++hdparm (5.5-7) unstable; urgency=low
++
++  * Get rid of .commands in source 
++
++ -- Stephen Gran <sgran@debian.org>  Tue, 17 Aug 2004 12:14:24 -0400
++
++hdparm (5.5-6) unstable; urgency=low
++
++  * The God, I hate when I do that release
++  * Revert some changes that are destined for an unfinished feature, and would
++    just break things now.
++
++ -- Stephen Gran <sgran@debian.org>  Tue, 17 Aug 2004 12:08:41 -0400
++
++hdparm (5.5-5) unstable; urgency=low
++
++  * New conf file option -p (Thanks Sebastian Kuzminsky <seb@kernel.org>)
++  * conf file also now allows for straight command line syntax - read
++    comments in hdparm.conf for details
++  * Add watch file
++  * Add udeb (closes: #265969) (Thanks Colin Watson <cjwatson@debian.org> for
++    patch)
++
++ -- Stephen Gran <sgran@debian.org>  Sun, 15 Aug 2004 22:48:29 -0400
++
++hdparm (5.5-4ubuntu3) warty; urgency=low
++
++  * Added versioned depend on lsb-base
++
++ -- Nathaniel McCallum <npmccallum@canonical.com>  Fri,  3 Sep 2004 14:54:30 -0400
++
++hdparm (5.5-4ubuntu2) warty; urgency=low
++
++  * debian/hdparm.init: pretty initscript
++
++ -- Nathaniel McCallum <npmccallum@canonical.com>  Fri,  3 Sep 2004 10:46:32 -0400
++
++hdparm (5.5-4ubuntu1) warty; urgency=low
++
++  * Create a udeb so that we can tune disk (especially CD-ROM) parameters in
++    d-i.
++
++ -- Colin Watson <cjwatson@flatline.org.uk>  Mon, 16 Aug 2004 00:21:30 +0100
++
++hdparm (5.5-4) unstable; urgency=low
++
++  * Patch from "Mario 'BitKoenig' Holbe" <Mario.Holbe@RZ.TU-Ilmenau.DE> for
++    better logic on checking RAID status. (closes: #249944)
++
++ -- Stephen Gran <sgran@debian.org>  Wed, 19 May 2004 20:22:47 -0400
++
++hdparm (5.5-3) unstable; urgency=low
++
++  * Add support for nohdparm boot option, to disable init script
++    I think this addresses the last of the problems with #247170, so I am
++    going to say (closes: #247170)
++  * Fix typo in hdparm.conf (closes: #248934)
++
++ -- Stephen Gran <sgran@debian.org>  Sun, 16 May 2004 14:24:45 -0400
++
++hdparm (5.5-2) unstable; urgency=low
++
++  * Merge in some manpage fixups, hopefully increasing clarity.
++  * The start link is run too early for people who need modules for their
++    controller loaded in order to use DMA.  Added a note to README.Debian
++    explaining what people can do in these circumstances, but leave the link
++    alone.  It's safer for the start script to fail than to have silent data
++    corruption by running it too late by default. (closes: #233188)
++
++ -- Stephen Gran <sgran@debian.org>  Wed,  3 Mar 2004 15:16:08 -0500
++
++hdparm (5.5-1) unstable; urgency=low
++
++  * New upstream version (closes: #232613)
++  * Add warning about examples in conf file - some are for devfs, and some
++    are not.  I thought this was clear enough, but I guess not.
++    (closes: #231641)
++  * Fix up typo in /etc/apm.d/20hdparm (closes: #231822)
++
++ -- Stephen Gran <sgran@debian.org>  Sat, 14 Feb 2004 00:18:07 -0500
++
++hdparm (5.4-10) unstable; urgency=low
++
++  * The "I'm actually putting the changes in this version" release.
++  * Bump up version dependency on debhelper to 4.1.17 for dh_installinit's
++    --no-start option.  Thanks to Thomas Hood for noticing I forgot to
++    actually include this. (closes: #230496)
++  * Actually include the fixed manpage this time. (closes: #230331)
++
++ -- Stephen Gran <sgran@debian.org>  Sat, 31 Jan 2004 15:55:47 -0500
++
++hdparm (5.4-9) unstable; urgency=low
++
++  * Added support for -K and -k (keep settings over reset) - thanks Shaul Karl
++    <shaulk@actcom.net.il> for patches. (closes: #229022)
++  * Hopefully explained -M (acoustic management feature a little more clearly
++    in manpage, and added pointer to READM.acoustic (closes: #230331)
++  * Work a little smarter, instead of a little harder, thanks to Thomas
++    Hood.  Let dh_installinit do The Right Thing, and use --no-start option, 
++    so it doesn't add the invoke-rc.d lines in postinst and prerm. 
++
++ -- Stephen Gran <sgran@debian.org>  Fri, 30 Jan 2004 13:29:54 -0500
++
++hdparm (5.4-8) unstable; urgency=low
++
++  * Added note to README.Debian to warn about the use of the init script with
++    MD arrays (thanks David Harris for bringing this to my attention).  Added
++    pointer to README.Debian to hdparm.conf as well, reminding people to be
++    aware of known issues before enabling the initscript.
++  * Finally wrapped my head around invoke-rc.d a little better (thanks to all
++    those on debian-devel who helped me out here).  Explicitly adding a K link
++    in all run levels will prevent invoke-rc.d from rerunning the script on
++    upgrade, where only having an S link in rcS.d apparently did not do the
++    expected.  That should take care of that nagging detail that I thought had
++    actually been fixed in -7, and really deal with all the parts of #224961.
++  * Allow for setting APM functions (-B) in init script. (closes: #226124)
++  * Fix bug in /etc/apm/20hdparm that made script exit without doing anything,
++    since test $variable || exit 0 tested non-declared variable.
++
++ -- Stephen Gran <sgran@debian.org>  Fri, 30 Jan 2004 13:16:26 -0500
++
++hdparm (5.4-7) unstable; urgency=low
++
++  * Move running of /etc/init.d script earlier to avoid possible disk
++    corrution with 2.6 kernels.  Also apply patch from Bruce Perens (thanks
++    Bruce) (closes: #224961)
++
++ -- Stephen Gran <sgran@debian.org>  Wed, 24 Dec 2003 08:37:20 -0500
++
++hdparm (5.4-6) unstable; urgency=low
++
++  * moved /etc/default/hdparm to /etc/hdparm.conf, because this is actually
++    policy compliant.  It turns out (mea culpa) default/ files need to be
++    shell scripts, which this is not.  Thanks for noticing this, joeyh.
++    (closes: #222133)
++  * Fixed manpage typo in section -M.  Thanks, Adrian.  (closes: #222557)
++
++ -- Stephen Gran <sgran@debian.org>  Fri,  5 Dec 2003 14:28:07 -0500
++
++hdparm (5.4-5) unstable; urgency=low
++
++  * Changed parsing of -c to accept multiple values instead of it being a 
++     boolean option (closes: #219641)
++  * Make initscript parsing of /etc/default/ file more flexible - now allows
++     parsing of lines that contain whitespace in addition to a newline.  Also
++     now has large note at top describing currently allowed syntax.
++     (closes: #219138)
++
++ -- Stephen Gran <sgran@debian.org>  Mon, 10 Nov 2003 23:10:01 -0500
++
++hdparm (5.4-4) unstable; urgency=low
++
++  * Add acoustic management support to /etc/init.d/hdparm script (and
++    /etc/default/hdparm) (closes: #217634)
++
++ -- Stephen Gran <sgran@debian.org>  Sun, 26 Oct 2003 10:44:06 -0500
++
++hdparm (5.4-3) unstable; urgency=low
++
++  * New maintainer (closes: #217098)
++  * Fix description of -A in manpage (closes: #212257)
++  * Build uses cdbs now, which supports building unstripped (closes: #190867)
++  * Change reference to boot time script to reflect actual file
++     (closes: #157919)
++  * /etc/apm/20hdparm now handles multiple drives (closes: #149558)
++  * /etc/init.d/hdparm and /etc/default/hdparm now included.
++    Many thanks to Shaul Karl <shaul@rakefet> and Joerg Sommer
++    <joerg@alea.gnuu.de> for suggestions and samples.
++    (closes: #87451, #169406, #175506, #198516)
++
++ -- Stephen Gran <sgran@debian.org>  Thu, 23 Oct 2003 14:00:37 -0400
++
++hdparm (5.4-2) unstable; urgency=low
++
++  * Added cdbs to Build-Depends.
++
++ -- Christopher L Cheney <ccheney@debian.org>  Mon,  4 Aug 2003 23:00:00 -0500
++
++hdparm (5.4-1) unstable; urgency=low
++
++  * New upstream release.
++  * Move contrib scripts. (Closes: #122644)
++  * Suggest apmd. (Closes: #137434)
++  * Include upstream documentation. (Closes: #155171)
++  * Bumped debhelper version. (Closes: #190866)
++
++ -- Christopher L Cheney <ccheney@debian.org>  Mon,  4 Aug 2003 22:00:00 -0500
++
++hdparm (5.3-0.1) unstable; urgency=low
++
++  * NMU with permission of maintainer.
++  * New upstream release. (closes: #135708)
++  * This should build on s390/hppa/ia64 again (closes: #155725, #185704)
++
++ -- Andrew Suffield <asuffield@debian.org>  Wed,  9 Apr 2003 21:40:35 +0100
++
++hdparm (5.2-1) unstable; urgency=low
++
++  * New upstream.
++
++ -- Christopher L Cheney <ccheney@debian.org>  Wed, 31 Jul 2002 14:35:00 -0500
++
++hdparm (4.5-1.2) unstable; urgency=low
++
++  * NMU
++  * Change "Conflicts: apmd" to "Replaces: apmd", to comply with section
++    7.5 of policy.  This should eliminate upgrade problems.
++
++ -- Chris Hanson <cph@debian.org>  Thu, 14 Mar 2002 00:26:38 -0500
++
++hdparm (4.5-1.1) unstable; urgency=low
++
++  * NMU with permission of maintainer.
++  * Move "/etc/apm/event.d/20hdparm" from the apmd package to the hdparm
++    package.
++
++ -- Chris Hanson <cph@debian.org>  Thu, 7 Mar 2002 23:06:39 -0500
++
++hdparm (4.5-1) unstable; urgency=high
++
++  * New Upstream. (Closes: #101531)
++  * New Maintainer.
++  * Included contrib scripts. (Closes: #92620)
++
++ -- Christopher L Cheney <ccheney@debian.org>  Wed, 28 Nov 2001 14:10:00 -0600
++
++hdparm (3.9a-1) unstable woody; urgency=low
++
++  * New upstream version (patch). Closes #85351, #77979, #58265
++  * Hack around compilation issues. Closes #80897, #84520
++  * Back out manpage patch. Closes #67060
++  * Add upstream changelog. Closes #80126
++  * Change doc for -q. Closes #37594 
++
++ -- Steve Dunham <dunham@debian.org>  Wed, 14 Feb 2001 16:35:12 -0800
++
++hdparm (3.9-1) unstable; urgency=low
++
++  * New upstream version
++
++ -- Steve Dunham <dunham@debian.org>  Tue, 16 May 2000 08:30:32 -0700
++
++hdparm (3.6-2) unstable; urgency=low
++
++  * Patch to unregister interfaces for thinkpads
++  * Closes: #54715
++
++ -- Steve Dunham <dunham@debian.org>  Tue, 25 Jan 2000 10:10:20 -0800
++
++hdparm (3.6-1) unstable; urgency=low
++
++  * New upstream version
++  * Fix problem with no media on CDs
++  * Add comment about -q option
++  * Closes: #30866, #39511
++
++ -- Steve Dunham <dunham@debian.org>  Fri, 29 Oct 1999 23:38:58 -0700
++
++hdparm (3.5-1) unstable; urgency=low
++
++  * New upstream version (#30010,#26368)
++
++ -- Steve Dunham <dunham@debian.org>  Fri, 27 Nov 1998 11:49:03 -0500
++
++hdparm (3.3-3) unstable; urgency=low
++
++  * Switch to debhelper (#17219)
++
++ -- Steve Dunham <dunham@debian.org>  Fri, 14 Aug 1998 00:15:38 -0400
++
++hdparm (3.3-2) unstable; urgency=low
++
++  * Fixed problem with automake
++
++ -- Steve Dunham <dunham@cps.msu.edu>  Mon, 21 Jul 1997 18:31:41 -0400
++
++hdparm (3.3-1) unstable; urgency=low
++
++  * New upstream version - upstream changes:
++        - add -C, -y, and -Y flags for IDE power management
++        - force BLKFLSBUF after -T or -t  -- kmg@barco.com
++        - fix minor -T/-t mixup in manpage -- hankedr@mail.auburn.edu
++
++
++ -- Steve Dunham <dunham@cps.msu.edu>  Sun,  8 Jun 1997 13:18:10 -0400
++
++hdparm (3.1-2) unstable; urgency=low
++
++  * Fixed Architecture: field
++
++  * Upgrade to 3.1.  Change to "Package format of the month"(TM)
++
++ -- Steve Dunham <dunham@gdl.msu.edu>  Thu, 10 Oct 1996 19:51:22 -0800
+--- hdparm-9.43.orig/debian/rules
++++ hdparm-9.43/debian/rules
+@@ -17,18 +17,26 @@
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ # 02111-1307 USA.
+ 
+-DEB_DH_INSTALLINIT_ARGS := '--no-start'
++DEB_DH_INSTALLINIT_ARGS := --no-start --noscripts --onlyscripts
+ #DEB_DH_LINK_ARGS := ../init.d/hdparm /etc/rcS.d/S07hdparm.first
+-DEB_UPDATE_RCD_PARAMS := 'start 07 S . '
+-DEB_FIXPERMS_EXCLUDE:= 20hdparm
++DEB_FIXPERMS_EXCLUDE := 20hdparm
++DEB_DH_INSTALLUDEV_ARGS := --priority=85
+ 
+-include /usr/share/cdbs/1/rules/dpatch.mk
+ include /usr/share/cdbs/1/rules/debhelper.mk
+ include /usr/share/cdbs/1/class/makefile.mk
+ 
++DEB_MAKE_ENVVARS += STRIP="true" LDFLAGS=
+ DEB_MAKE_INSTALL_TARGET := install DESTDIR=$(CURDIR)/debian/tmp
+ 
+ common-install-prehook-arch::
+ 	install -d $(CURDIR)/debian/tmp/sbin
++common-binary-post-install-arch::
++	install -m 755 $(CURDIR)/debian/hdparm.udev-script $(CURDIR)/debian/hdparm/lib/udev/hdparm
++	dh_link -phdparm /usr/lib/pm-utils/power.d/95hdparm-apm /usr/lib/pm-utils/sleep.d/95hdparm-apm
++
+ binary-predeb/hdparm::
+ 	chmod 755 $(CURDIR)/debian/hdparm/etc/apm/event.d/20hdparm
++	chmod 755 $(CURDIR)/debian/hdparm/usr/lib/pm-utils/power.d/95hdparm-apm
++clean::
++	# remove cruft from orig tarball
++	rm -f debian/hdparm.postinit debian/hdparm.dirs debian/hdparm.rules debian/hdparm.postrm
+--- hdparm-9.43.orig/debian/watch
++++ hdparm-9.43/debian/watch
+@@ -1,2 +1,4 @@
+-version=2
+-http://www.ibiblio.org/pub/Linux/system/hardware (?:.*/)?hdparm-?_?([\w+\d+\.]+|\d+)(\.tar|\.tgz)(\.gz|\.bz2|) debian uupdate
++version=3
++
++http://sf.net/hdparm/hdparm[-_]([\d+\.]+)(?:\.tar|\.tgz)(?:\.gz|\.bz2|) \
++ debian uupdate
+--- hdparm-9.43.orig/debian/hdparm.conf.5
++++ hdparm-9.43/debian/hdparm.conf.5
+@@ -63,6 +63,9 @@
+ \fB\-B\fR apm setting
+ apm = 255
+ .TP
++\fB\-B\fR apm setting when on battery
++apm_battery = 127
++.TP
+ \fB\-c\fR enable (E)IDE 32-bit I/O support - can be any of 0,1,3
+ io32_support = 1
+ .TP
+@@ -142,14 +145,11 @@
+ Please see README.Debian for details.
+ ROOTFS = /dev/hda
+ .PP
+-You can use straight hdparm commands in this config file 
+-as well \- the set up is ugly, but it keeps backwards compatibility.
+-Additionally, it should be noted that any blocks that begin with 
+-the keyword 'command_line' are not run until after the root filesystem
+-is mounted.
+-This is done to avoid running blocks twice.  If you need 
+-to run hdparm to set parameters for your root disk, please use the 
+-standard format.
++Blocks beginning with the keyword 'command_line' instead of a device
++identifier are no longer supported for backwards compatibility by this
++version of hdparm.  Options must be introduced by a correct device
++identifier instead so that they will be applied when the device becomes
++available.
+ .SH AUTHOR
+ hdparm was written by Mark Lord <mlord@pobox.com>
+ The init script and configuration file are currently maintained by 
+--- hdparm-9.43.orig/debian/hdparm-functions
++++ hdparm-9.43/debian/hdparm-functions
+@@ -0,0 +1,263 @@
++hdparm_is_on_battery() {
++    on_ac_power 2>/dev/null
++    [ $? -eq 1 ]
++}
++
++hdparm_set_option()
++{
++  local NEW_OPT= NEW_DEF=
++  if test -n "$DISC"; then
++    for i in $OPTIONS; do
++      if test x${i%${i#??}} != x${1%${1#??}}; then
++        NEW_OPT="$NEW_OPT $i"
++      else
++        NEW_OPT=${NEW_OPT%-q}
++      fi
++    done
++    OPTIONS="$NEW_OPT $OPT_QUIET $1"
++  else
++    for i in $DEFAULT; do
++      if test x${i%${i#??}} != x${1%${1#??}}; then
++        NEW_DEF="$NEW_DEF $i"
++      else
++        NEW_DEF=${NEW_DEF%-q}
++      fi
++    done
++    DEFAULT="$NEW_DEF $DEF_QUIET $1"
++  fi
++}
++
++hdparm_eval_value()
++{
++  case $1 in
++    off|0)
++      hdparm_set_option "$2"0
++       ;;
++    on|1)
++      hdparm_set_option "$2"1
++      ;;
++    *)
++      log_failure_msg "Unknown Value for $2: $1"
++      exit 1
++      ;;
++  esac
++}
++
++# It isn't safe to set an APM policy by default on Firewire or USB devices.
++# See https://bugs.launchpad.net/bugs/515023.
++hdparm_try_apm()
++{
++    # set our default global apm policy here.
++    if [ -z "$ID_PATH" ]; then
++        local ID_PATH="$(udevadm info -n "$1" -q property 2>/dev/null | sed -n 's/^ID_PATH=//p')" || true
++    fi
++    case $ID_PATH in
++        pci-*-ieee1394-*|pci-*-usb-*)
++            return 1
++            ;;
++    esac
++    return 0
++}
++
++# parse /etc/hdparm.conf and spit out a list of options for the specified
++# disk, taking into account global settings in /etc/hdparm.conf, current AC
++# power status, and (as a fallback) the default apm settings on Ubuntu.
++# arguments: device_name
++# returns 0 on success, 1 on failure.
++# options to be passed to hdparm are returned on stdout.
++hdparm_options()
++{
++    local WANTED_DISK="$1"
++
++    local DISC= DEFAULT= DEF_QUIET= COMMAND_LINE=
++    # if the below is guaranteed to spawn a subshell, then this next line is
++    # unnecessary
++    local OPTIONS OPT_QUIET KEY SEP VALUE
++
++    egrep -v '^[[:space:]]*(#|$)' /etc/hdparm.conf |
++    {
++        # set our default global apm policy here.
++        if hdparm_try_apm "$WANTED_DISK"; then
++            if hdparm_is_on_battery; then
++                hdparm_set_option -B128
++		# set a spindown time of 3 minutes by default so the disk isn't
++		# constantly power cycling on a busy machine if spindown is
++		# enabled
++		hdparm_set_option -S36
++            else
++                hdparm_set_option -B254
++            fi
++        fi
++
++        while read KEY SEP VALUE; do
++            case $SEP in
++                '{')
++                    case $KEY in
++                        command_line)
++                            unset DISC
++                            unset OPTIONS
++                            unset OPT_QUIET
++                            COMMAND_LINE=1
++                            ;;
++                        *)
++                            if [ -h "$KEY" ]
++                            then
++                                DISC=$(readlink -m "$KEY")
++                                DISC=${DISC%%[[:digit:]]*}
++                            else
++                                DISC=$KEY
++                            fi
++                            OPTIONS=$DEFAULT
++                            OPT_QUIET=$DEF_QUIET
++                            ;;
++                    esac
++                    ;;
++                =)
++                    case $KEY in
++                         read_ahead_sect) 
++                             hdparm_set_option -a$VALUE
++                            ;;
++                        lookahead) 
++                            hdparm_eval_value $VALUE -A
++                            ;;
++                        bus) 
++                            hdparm_eval_value $VALUE -b
++                            ;;
++                        apm)
++                            if ! hdparm_is_on_battery; then
++                                hdparm_set_option -B$VALUE
++                            fi
++                            ;;
++                        apm_battery)
++                            if hdparm_is_on_battery; then
++                                hdparm_set_option -B$VALUE
++                            fi
++                            ;;
++                        io32_support) 
++                            hdparm_set_option -c$VALUE
++                            ;;
++                        dma) 
++                            hdparm_eval_value $VALUE -d
++                            ;;
++                        defect_mana) 
++                            hdparm_eval_value $VALUE -D
++                            ;;
++                        cd_speed) 
++                            hdparm_set_option -E$VALUE
++                            ;;
++                        mult_sect_io) 
++                            hdparm_set_option -m$VALUE
++                            ;;
++                        prefetch_sect) 
++                            hdparm_set_option -P$VALUE
++                            ;;
++                        read_only) 
++                            hdparm_eval_value $VALUE -r
++                            ;;
++                        spindown_time) 
++                            hdparm_set_option -S$VALUE
++                            ;;
++                        poweron_standby) 
++                            hdparm_eval_value $VALUE -s
++                            ;;
++                        interrupt_unmask) 
++                            hdparm_eval_value $VALUE -u
++                            ;;
++                        write_cache) 
++                            hdparm_eval_value $VALUE -W
++                            ;;
++                        transfer_mode) 
++                            hdparm_set_option -X$VALUE
++                            ;;
++                        acoustic_management)
++                            hdparm_set_option -M$VALUE
++                            ;;
++                        keep_settings_over_reset)
++                            hdparm_eval_value $VALUE -k
++                            ;;
++                        keep_features_over_reset)
++                            hdparm_eval_value $VALUE -K
++                            ;;
++                        chipset_pio_mode)
++                            hdparm_set_option -p$VALUE
++                            ;;
++                        security_unlock)
++                            hdparm_set_option --security-unlock $VALUE
++                            ;;
++                        security_pass)
++                            hdparm_set_option --security-set-pass $VALUE
++                            ;;
++                        security_disable)
++                            hdparm_set_option --security-disable $VALUE
++                            ;;
++                        user-master)
++                            hdparm_set_option --user-master $VALUE
++                            ;;
++                        security_mode)
++                            hdparm_set_option --security-mode $VALUE
++                            ;;
++                        ROOTFS)
++                            ;; 
++                        *)
++                            echo "Unknown option $KEY"
++                            exit 1
++                            ;;
++                    esac
++                    ;;
++                "")
++                    case $KEY in
++                        '}')
++                            if [ -z "$DISC" ] && [ -z "$COMMAND_LINE" ]; then
++                                echo "No disk enabled. Exiting" >&2
++                                return 1
++                            fi
++                            if [ -n "$OPTIONS" ] && [ "$DISC" = "$WANTED_DISK" ]
++                            then
++                                echo $OPTIONS
++                                return 0
++                            fi
++                            COMMAND_LINE=
++                            ;;
++                        quiet)
++                            if [ -n "$DISC" ]; then
++                                OPT_QUIET=-q
++                            else
++                                DEF_QUIET=-q
++                            fi
++                            ;;
++                        standby) 
++                            hdparm_set_option -y
++                            ;;
++                        sleep) 
++                            hdparm_set_option -Y
++                            ;;
++                        disable_seagate) 
++                            hdparm_set_option -Z
++                            ;;
++                        security_freeze) 
++                            hdparm_set_option --security-freeze
++                            ;;
++                        *)
++                            if [ -z "$COMMAND_LINE" ]; then
++                                echo "unknown option $KEY" >&2
++                                return 1
++                            fi
++                            ;;
++                    esac
++                    ;;
++                *)
++                    if [ -z "$COMMAND_LINE" ]; then
++                        echo "unknown separator $SEP" >&2
++                        return 1
++                    fi
++                    ;;
++            esac
++        done
++        # parsed the whole file and didn't find the disk,
++        # so try the default instead.
++        if [ -n "$DEFAULT" ]; then
++            echo $DEFAULT
++            return 0
++        fi
++    }
++}
+--- hdparm-9.43.orig/debian/hdparm.conf
++++ hdparm-9.43/debian/hdparm.conf
+@@ -39,6 +39,8 @@
+ #bus = on
+ # -B apm setting
+ #apm = 255
++# -B apm setting when on battery
++#apm_battery = 127
+ # -c enable (E)IDE 32-bit I/O support - can be any of 0,1,3
+ #io32_support = 1
+ # -d disable/enable the "using_dma" flag for this drive
+@@ -90,7 +92,6 @@
+ # --security-mode Set the security mode
+ # security_mode = h
+ 
+-
+ # Root file systems.  Please see README.Debian for details
+ # ROOTFS = /dev/hda
+ 
+@@ -133,6 +134,3 @@
+ #	dma = on
+ #}
+ 
+-#command_line {
+-#       hdparm -q -m16 -q -W0 -q -d1 /dev/hda
+-#}
+--- hdparm-9.43.orig/debian/95hdparm-apm
++++ hdparm-9.43/debian/95hdparm-apm
+@@ -0,0 +1,96 @@
++#! /bin/sh
++#
++# This script adjusts hard drive APM settings using hdparm. The hardware
++# defaults (usually hdparm -B 127) cause excessive head load/unload cycles
++# on many modern hard drives. We therefore set hdparm -B 254 while on AC
++# power. On battery we set hdparm -B 128; this still does not guarantee
++# disk parking, but is safer than causing lots of mechanical wear on disks
++# as we seem to get currently with 127.
++#
++# Refactored from acpi-support's 90-hdparm.sh for pm-utils
++
++if grep -wq "nohdparm" /proc/cmdline ; then
++    exit 0
++fi
++
++# Do nothing when called via /etc/init.d/acpi-support; udev rules take care
++# of setting the initial hdparm policy for us.
++if ([ "$previous" ] && [ "$runlevel" ]) || [ "$runlevel" = S ]; then
++    exit 0
++fi
++
++if [ -e /usr/sbin/laptop_mode ] ; then 
++	LMT_CONTROL_HD_POWERMGMT=$(. /etc/laptop-mode/laptop-mode.conf && echo "$CONTROL_HD_POWERMGMT")
++	if [ "$LMT_CONTROL_HD_POWERMGMT" != 0 ] \
++	   && [ -e /var/run/laptop-mode-tools/enabled ]
++	then
++		# Laptop mode controls hdparm -B settings, we don't.
++		exit 0
++	fi
++fi
++
++. /lib/hdparm/hdparm-functions
++
++resume_hdparm_apm()
++{
++	for dev in /dev/sd? /dev/hd? ; do
++		if [ -b $dev ] && hdparm_try_apm $dev ; then
++			# Check for APM support; discard errors since not all
++			# drives support HDIO_GET_IDENTITY (-i).
++			if hdparm -i $dev 2> /dev/null | grep -q 'AdvancedPM=yes'
++			then
++				for option in $(hdparm_options $dev); do
++					case $option in
++						-B*)
++							apm_opt=$option
++							;;
++						*)
++							;;
++					esac
++				done
++				if [ -n "$apm_opt" ]; then
++					hdparm $apm_opt $dev
++				fi
++			fi
++		fi
++	done
++}
++
++resume_hdparm_spindown()
++{
++	for dev in /dev/sd? /dev/hd? ; do
++		if [ -b $dev ] && hdparm_try_apm $dev ; then
++			# Check for APM support; discard errors since not all
++			# drives support HDIO_GET_IDENTITY (-i).
++			if hdparm -i $dev 2> /dev/null | grep -q 'AdvancedPM=yes'
++			then
++				for option in $(hdparm_options $dev); do
++					case $option in
++						-S*)
++							apm_opt=$option
++							;;
++						*)
++							;;
++					esac
++				done
++				if [ -n "$apm_opt" ]; then
++					hdparm $apm_opt $dev
++				fi
++			fi
++		fi
++	done
++}
++
++case "$1" in
++	true|false) # powersaving on/off
++		resume_hdparm_apm
++		;;
++	thaw|resume)
++		resume_hdparm_apm
++		# only set the -S option on resuming, not necessary for power.d
++		resume_hdparm_spindown
++		;;
++	*)
++		exit 254
++		;;
++esac
+--- hdparm-9.43.orig/debian/README.Debian
++++ hdparm-9.43/debian/README.Debian
+@@ -62,6 +62,13 @@
+   /etc/hdparm.conf, that will fail the first time (as the device nodes
+   don't yet exist) but will be properly set up when udev gets to them.
+   
++  If you have devices that consistently come up in different orders (e.g., 
++  today's /dev/sda is tomorrow's /dev/sdb), then you can do one of two
++  things.  Either you can directly use one of the various /dev/disk/by-*
++  symlinks, or you can create a udev rule to create a symlink to your
++  drive with a more friendly name.  Then point hdparm at these symlinks
++  as you previously did with /dev/sda.
++
+ Known problems, limitations, and work-arounds:
+   
+   Additional information from David B Harris:
+--- hdparm-9.43.orig/debian/hdparm.udev-script
++++ hdparm-9.43/debian/hdparm.udev-script
+@@ -0,0 +1,33 @@
++#!/bin/sh
++
++set -e
++
++[ -n "$DEVNAME" ] || exit 1
++
++. /lib/hdparm/hdparm-functions
++
++if [ -e /proc/cmdline ]; then #linux only - future proofing against BSD and Hurd :)
++	if grep -wq nohdparm /proc/cmdline ; then
++		exit 0
++	fi
++fi
++
++raidstat=OK
++if [ -e /proc/mdstat ]; then
++	if egrep -iq "resync|repair|recover|check" /proc/mdstat; then
++		raidstat=RESYNC
++	fi
++elif [ -e /proc/rd/status ]; then
++	raidstat=`cat /proc/rd/status`
++fi
++
++if ! [ "$raidstat" = 'OK' ]; then
++	exit 1
++fi
++
++OPTIONS=$(hdparm_options $DEVNAME)
++if [ -n "$OPTIONS" ]; then
++	/sbin/hdparm $OPTIONS $DEVNAME 2>/dev/null
++fi
++
++exit 0
+--- hdparm-9.43.orig/debian/hdparm.postinst
++++ hdparm-9.43/debian/hdparm.postinst
+@@ -1,7 +1,9 @@
+ #!/bin/sh
++set -e
+ 
+-if [ -z "$2" ] || dpkg --compare-versions "$2" lt 6.1-6 ; then
+-  ln -s ../hdparm.rules /etc/udev/rules.d/z60_hdparm.rules
++if [ -z "$2" ] || dpkg --compare-versions "$2" lt 9.39~ ; then
++  [ ! -L /etc/udev/rules.d/z60_hdparm.rules ] || rm /etc/udev/rules.d/z60_hdparm.rules
++  [ ! -f /etc/udev/hdparm.rules ] || rm /etc/udev/hdparm.rules
+ fi
+ 
+ if [ -n "$2" ] && dpkg --compare-versions "$2" lt 8.9-2; then
+--- hdparm-9.43.orig/debian/hdparm.udev
++++ hdparm-9.43/debian/hdparm.udev
+@@ -0,0 +1,2 @@
++ACTION=="add", SUBSYSTEM=="block", KERNEL=="[sh]d[a-z]", \
++	RUN+="/lib/udev/hdparm"
+--- hdparm-9.43.orig/debian/hdparm.links
++++ hdparm-9.43/debian/hdparm.links
+@@ -0,0 +1 @@
++usr/lib/pm-utils/power.d/95hdparm-apm usr/lib/pm-utils/sleep.d/95hdparm-apm
+--- hdparm-9.43.orig/debian/control
++++ hdparm-9.43/debian/control
+@@ -1,15 +1,19 @@
+ Source: hdparm
+ Section: admin
+ Priority: optional
+-Maintainer: Stephen Gran <sgran@debian.org>
+-Build-Depends: cdbs (>> 0.4.37), debhelper (>= 5.0), dpatch, dpkg-dev (>= 1.13.19)
+-Standards-Version: 3.8.0
++Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
++XSBC-Original-Maintainer: Stephen Gran <sgran@debian.org>
++Uploaders: Michael Meskes <meskes@debian.org>
++Build-Depends: cdbs (>> 0.4.37), debhelper (>= 7.3.15), dpkg-dev (>= 1.13.19)
++Standards-Version: 3.9.3
++Homepage: http://sourceforge.net/projects/hdparm/
+ 
+ Package: hdparm
+ Architecture: any
+-Depends: ${shlibs:Depends}, lsb-base
++Depends: ${shlibs:Depends}, ${misc:Depends}
+ Suggests: apmd
+ Replaces: apmd (<= 3.0.2-1.15)
++Recommends: powermgmt-base
+ Description: tune hard disk parameters for high performance
+  Get/set device parameters for Linux SATA/IDE drives.
+  Primary use is for enabling irq-unmasking and IDE multiplemode.
+@@ -17,15 +21,16 @@
+ Package: hdparm-dbg
+ Architecture: any
+ Priority: extra
+-Depends: hdparm (= ${binary:Version})
++Section: debug
++Depends: hdparm (= ${binary:Version}), ${misc:Depends}
+ Description: debug files for hdparm
+  This package contains the stripped debugging symbols for hdparm
+ 
+ Package: hdparm-udeb
+-XC-Package-Type: udeb
++Package-Type: udeb
+ Section: debian-installer
+ Architecture: any
+-Depends: ${shlibs:Depends}
++Depends: ${shlibs:Depends}, ${misc:Depends}
+ Description: tune hard disk parameters for high performance
+  Get/set device parameters for Linux SATA/IDE drives.
+  .
+--- hdparm-9.43.orig/debian/copyright
++++ hdparm-9.43/debian/copyright
+@@ -10,8 +10,10 @@
+ /* hdparm.c - Command line interface to get/set hard disk parameters */
+ /*          - by Mark Lord © 1994-2008 -- freely distributable */
+ 
+-You are free to distribute this software under the terms of the BSD License.
+-On Debian systems, the complete text of the BSD License can be found in
+-/usr/share/common-licenses/BSD
++License:
+ 
++You may freely use, modify, and redistribute the hdparm program,
++as either binary or source, or both.
+ 
++The only condition is that my name and copyright notice
++remain in the source code as-is.
+--- hdparm-9.43.orig/debian/hdparm.docs
++++ hdparm-9.43/debian/hdparm.docs
+@@ -1,2 +1,3 @@
+ README.acoustic
+ debian/changelog.old
++TODO
+--- hdparm-9.43.orig/debian/hdparm.init
++++ hdparm-9.43/debian/hdparm.init
+@@ -83,6 +83,7 @@
+     echo 0 >/proc/sys/dev/raid/speed_limit_max
+   fi
+   sleep 2
++  trap undo_slow_down_raid_sync EXIT
+ }
+ 
+ undo_slow_down_raid_sync()
+@@ -95,6 +96,11 @@
+   fi
+ }
+ 
++isOnBattery() {
++	on_ac_power 2>/dev/null
++	[ $? -eq 1 ]
++}
++
+ set_option()
+ {
+   if test -n "$DISC"; then
+@@ -143,9 +149,6 @@
+   slow_down_raid_sync
+ fi
+ 
+-# Get blocks as far as the drive's write cache.
+-/bin/sync
+-
+ [ "$UDEV" = 'yes' ] || log_daemon_msg "Setting parameters of disc"
+ 
+ DISC=
+@@ -171,7 +174,11 @@
+               fi
+               ;;
+             *)
+-              DISC=$KEY
++              if [ -h "$KEY" ]; then
++                DISC=$(readlink -m "$KEY")
++              else
++                DISC=$KEY
++              fi
+               OPTIONS=$DEFAULT
+               OPT_QUIET=$DEF_QUIET
+               WAS_RUN=0
+@@ -196,8 +203,15 @@
+             bus) 
+               eval_value $VALUE -b
+               ;;
+-            apm) 
+-              set_option -B$VALUE
++            apm)
++              if ! isOnBattery; then
++                  set_option -B$VALUE
++              fi
++              ;;
++            apm_battery)
++              if isOnBattery; then
++                  set_option -B$VALUE
++              fi
+               ;;
+             io32_support) 
+               set_option -c$VALUE
+@@ -306,7 +320,6 @@
+              ;; 
+             *)
+               log_failure_msg "Unknown option $KEY"
+-              undo_slow_down_raid_sync
+               exit 1
+               ;;
+           esac
+@@ -316,7 +329,6 @@
+             '}')
+               if [ -z "$DISC" ] && [ "$WAS_RUN" != '1' ]; then
+                 log_failure_msg "No disk enabled. Exiting"
+-                undo_slow_down_raid_sync
+                 exit 1
+               fi
+               if [ -n "$OPTIONS" ] && [ -b "$DISC" ]; then
+@@ -331,14 +343,12 @@
+                 ret=0
+                 if [ "$UDEV" = 'yes' ] && [ "$IN_BLOCK" = 1 ]; then
+                   # Flush the drive's internal write cache to the disk.
+-                  /sbin/hdparm -q -f $DISC 2>/dev/null || ret=$?
+                   /sbin/hdparm $OPTIONS $DISC 2>/dev/null || ret=$?
+                   if [ "$VERBOSE" = 'yes' ]; then
+                     log_progress_msg " $DISC"
+                     log_end_msg $ret || true
+                   fi
+                 elif [ "$UDEV" = 'no' ]; then
+-                  /sbin/hdparm -q -f $DISC 2>/dev/null || ret=$?
+                   /sbin/hdparm $OPTIONS $DISC 2>/dev/null || ret=$?
+                   WAS_RUN=1
+                   log_progress_msg " $DISC"
+@@ -367,14 +377,12 @@
+               ;;
+             *)
+               log_failure_msg "unknown option $KEY"
+-              undo_slow_down_raid_sync
+               exit 1
+               ;;
+           esac
+           ;;
+        *)
+          log_failure_msg "unknown separator $SEP"
+-         undo_slow_down_raid_sync
+          exit 1
+          ;;
+       esac
+@@ -389,9 +397,8 @@
+     ret=0
+     for drive in $harddisks; do
+       WAS_RUN=1
+-      /sbin/hdparm -q -f $drive 2>/dev/null|| ret=$?
+-      /sbin/hdparm -q $hdparm_opts -q $drive 2>/dev/null|| ret=$?
+       log_progress_msg "$drive "
++      /sbin/hdparm -q $hdparm_opts -q $drive 2>/dev/null|| ret=$?
+     done
+     log_end_msg $ret || true
+   fi
+@@ -402,9 +409,4 @@
+   fi
+ }
+ 
+-# Turn back on RAID synchronisation if we turned it off.
+-if [ "$raidstat" != 'OK' ] && [ "$RAID_WORKAROUND" = "yes" ]; then
+-  undo_slow_down_raid_sync
+-fi
+-
+ exit 0
+--- hdparm-9.43.orig/debian/hdparm.preinst
++++ hdparm-9.43/debian/hdparm.preinst
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++set -e
+ 
+ # Remove a no-longer used conffile
+ rm_conffile() {
+--- hdparm-9.43.orig/debian/hdparm.install
++++ hdparm-9.43/debian/hdparm.install
+@@ -1,8 +1,9 @@
++debian/hdparm.conf	etc/
+ debian/20hdparm		etc/apm/event.d/
++debian/hdparm-functions lib/hdparm/
++debian/95hdparm-apm	usr/lib/pm-utils/power.d/
+ debian/tmp/sbin/hdparm
+-contrib/fix_standby.c	usr/share/doc/hdparm/contrib
+-contrib/idectl		usr/share/doc/hdparm/contrib
+-contrib/README		usr/share/doc/hdparm/contrib
+-contrib/ultrabayd	usr/share/doc/hdparm/contrib
+-debian/hdparm.conf	etc/
+-debian/hdparm.rules	etc/udev/
++
++wiper/wiper.sh		usr/share/doc/hdparm/wiper
++wiper/README.txt	usr/share/doc/hdparm/wiper
++contrib/fix_standby.c   usr/share/doc/hdparm/contrib
+--- hdparm-9.43.orig/debian/changelog.old
++++ hdparm-9.43/debian/changelog.old
+@@ -0,0 +1,18 @@
++old changelog
++
++23-December-1994 Bruce Perens <Bruce@Pixar.com>
++        Added Debian GNU/Linux package maintenance system files, and configured
++        for Debian.
++
++22-June-1995 Guy R. Thomas <gthomas@native-ed.bc.ca>
++        Took over maintenance of package.  New Debian revision.
++
++22-June-1995 Guy R. Thomas <gthomas@native-ed.bc.ca>
++        Upgraded to current version.  ( May 31, 1995 )
++
++25-June-1996 Steve Dunham <dunham@gdl.msu.edu>
++        Upgraded to current version.
++
++Local variables:
++mode: debian-changelog
++End:
+--- hdparm-9.43.orig/debian/source/format
++++ hdparm-9.43/debian/source/format
+@@ -0,0 +1 @@
++1.0

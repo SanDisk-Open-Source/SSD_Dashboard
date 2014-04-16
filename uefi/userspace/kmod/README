@@ -1,0 +1,61 @@
+kmod - Linux kernel module handling
+
+OVERVIEW
+========
+
+kmod is a set of tools to handle common tasks with Linux kernel modules like
+insert, remove, list, check properties, resolve dependencies and aliases.
+
+These tools are designed on top of libkmod, a library that is shipped with
+kmod. See libkmod/README for more details on this library and how to use it.
+The aim is to be compatible with tools, configurations and indexes from
+module-init-tools project.
+
+Compilation and installation
+============================
+
+In order to compiler the source code you need following software packages:
+	- GCC compiler
+	- GNU C library
+
+Optional dependencies:
+	- ZLIB library
+	- LZMA library
+
+Typical configuration:
+	./configure CFLAGS="-g -O2" --prefix=/usr \
+			--sysconfdir=/etc --libdir=/usr/lib
+
+Configure automatically searches for all required components and packages.
+
+To compile and install run:
+	make && make install
+
+Hacking
+=======
+
+Run 'bootstrap' script before configure. If you want to accept the recommended
+flags, you just need to run 'bootstrap-configure'.
+
+Make sure to read the CODING-STYLE file and the other READMEs: libkmod/README
+and testsuite/README.
+
+Information
+===========
+
+Signed packages:
+	http://www.kernel.org/pub/linux/utils/kernel/kmod/
+
+Mailing list:
+	linux-modules@vger.kernel.org
+
+Git:
+	git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git
+	http://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git
+	https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git
+
+Gitweb:
+	http://git.kernel.org/?p=utils/kernel/kmod/kmod.git
+
+Irc:
+	#kmod on irc.freenode.org

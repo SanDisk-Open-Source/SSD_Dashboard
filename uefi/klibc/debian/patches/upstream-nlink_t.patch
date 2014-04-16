@@ -1,0 +1,16 @@
+Description: fix compiling with 3.5 headers
+Author: Adam Conrad <adconrad@ubuntu.com>
+Origin: upstream, http://git.kernel.org/?p=libs/klibc/klibc.git;a=patch;h=1ec8e824a0b0ee10e93b257ccac08f07cd90f4d8
+Forwarded: not-needed
+Last-Update: 2012-06-29
+
+--- klibc-2.0.1.orig/usr/include/sys/types.h
++++ klibc-2.0.1/usr/include/sys/types.h
+@@ -25,7 +25,6 @@ typedef __kernel_fd_set fd_set;
+ typedef uint32_t dev_t;
+ typedef __kernel_ino_t ino_t;
+ typedef __kernel_mode_t mode_t;
+-typedef __kernel_nlink_t nlink_t;
+ typedef __kernel_loff_t off_t;
+ typedef __kernel_loff_t loff_t;
+ typedef __kernel_pid_t pid_t;

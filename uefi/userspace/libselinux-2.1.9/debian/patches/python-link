@@ -1,0 +1,15 @@
+Description: Do not link against python library, this is considered bad practice in debian
+Author: Laurent Bigonville <bigon@debian.org>
+Date: Wed, 07 Mar 2012 23:33:43 +0100
+
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -85,7 +85,7 @@ $(SWIGRUBYLOBJ): $(SWIGRUBYCOUT)
+ 	$(CC) $(filter-out -Werror, $(CFLAGS)) -I$(RUBYINC) -fPIC -DSHARED -c -o $@ $<
+ 
+ $(SWIGSO): $(SWIGLOBJ)
+-	$(CC) $(CFLAGS) $(LDFLAGS) -shared -o $@ $< -L. -lselinux -L$(LIBDIR) $(PYTHONLIBDIR) -Wl,-soname,$@,-z,defs
++	$(CC) $(CFLAGS) $(LDFLAGS) -shared -o $@ $< -L. -lselinux -L$(LIBDIR) $(PYTHONLIBDIR) -Wl,-soname,$@
+ 
+ $(SWIGRUBYSO): $(SWIGRUBYLOBJ)
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -shared -o $@ $^ -L. -lselinux -L$(LIBDIR) -Wl,-soname,$@

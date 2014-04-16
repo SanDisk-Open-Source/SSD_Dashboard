@@ -1,0 +1,39 @@
+shim (0.2+20121127.9c0c64eb-0ubuntu1) UNRELEASED; urgency=low
+
+  * New upstream snapshot.
+  * Drop debian/patches/shim-before-loadimage; upstream has changed this to
+    not call loadimage at all.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 12 Dec 2012 16:36:12 -0800
+
+shim (0~20120906.bcd0a4e8-0ubuntu4) quantal-proposed; urgency=low
+
+  * debian/patches/shim-before-loadimage: Use direct verification first
+    before LoadImage.  Addresses an issue where Lenovo's SecureBoot
+    implementation pops an error message on any verification failure - avoid
+    calling LoadImage at all unless we have to.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 10 Oct 2012 15:28:40 -0700
+
+shim (0~20120906.bcd0a4e8-0ubuntu3) quantal; urgency=low
+
+  * debian/patches/second-stage-path: Chainload grubx64.efi, not
+    grub.efi.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 05 Oct 2012 11:20:58 -0700
+
+shim (0~20120906.bcd0a4e8-0ubuntu2) quantal; urgency=low
+
+  * debian/patches/prototypes: Include missing prototypes, and disable
+    use of BIO_new_file.
+  * Only build the package for amd64; we're not signing an i386 shim at this
+    stage so there's no point in building it.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 04 Oct 2012 17:47:04 +0000
+
+shim (0~20120906.bcd0a4e8-0ubuntu1) quantal; urgency=low
+
+  * Initial release.
+  * Include the Canonical Secure Boot master CA.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 04 Oct 2012 00:01:06 -0700

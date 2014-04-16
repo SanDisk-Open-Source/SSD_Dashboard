@@ -1,0 +1,25 @@
+Description: Don't use pkg-config
+ Upstream started using pkg-config, but this doesn't work on Debian for
+ unknown reasons, so I revert that upstream change.
+ .
+ libselinux (2.1.9-1) unstable; urgency=low
+ .
+   * New upstream version, lots of man page changes, python related changes,
+     and lots of bug fixes.
+Author: Russell Coker <russell@coker.com.au>
+
+---
+Origin: Russell Coker
+Last-Update: 2012-02-20
+
+--- libselinux-2.1.9.orig/src/Makefile
++++ libselinux-2.1.9/src/Makefile
+@@ -12,7 +12,7 @@ LIBDIR ?= $(PREFIX)/lib
+ SHLIBDIR ?= $(DESTDIR)/lib
+ INCLUDEDIR ?= $(PREFIX)/include
+ PYLIBVER ?= $(shell $(PYTHON) -c 'import sys;print("python%d.%d" % sys.version_info[0:2])')
+-PYINC ?= $(shell pkg-config --cflags $(PYPREFIX))
++PYINC ?= -I/usr/include/$(PYLIBVER)
+ PYTHONLIBDIR ?= $(shell pkg-config --libs $(PYPREFIX))
+ PYLIBDIR ?= $(LIBDIR)/$(PYLIBVER)
+ RUBYLIBVER ?= $(shell ruby -e 'print RUBY_VERSION.split(".")[0..1].join(".")')

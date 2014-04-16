@@ -1,0 +1,18 @@
+# kmod - load modules from /etc/modules
+#
+# This task loads the kernel modules specified in the /etc/modules file
+
+description	"load modules from /etc/modules"
+
+start on (startup
+	  and started udev)
+
+task
+script
+    [ -f /etc/modules ] || exit 0
+    hash="#"
+    while read module args; do
+	[ -n "$module" ] && [ "${module#${hash}}" = "${module}" ] || continue
+	modprobe $module $args || :
+    done < /etc/modules
+end script

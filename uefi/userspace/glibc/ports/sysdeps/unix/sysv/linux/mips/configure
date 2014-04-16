@@ -1,0 +1,140 @@
+# This file is generated from configure.in by Autoconf.  DO NOT EDIT!
+ # Local configure fragment for sysdeps/unix/sysv/linux/mips.
+
+
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+    #if (_MIPS_SIM != _ABIO32)
+    #error Not O32 ABI
+    #endif
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  libc_mips_abi=o32
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+      #if (_MIPS_SIM != _ABIN32)
+      #error Not N32 ABI
+      #endif
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  libc_mips_abi=n32
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+        #if (_MIPS_SIM != _ABI64)
+        #error Not 64 ABI
+        #endif
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  libc_mips_abi=n64
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+if test -z "$libc_mips_abi"; then
+  as_fn_error $? "could not determine what ABI the compiler is using" "$LINENO" 5
+fi
+
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+    #if !defined(__mips_soft_float)
+    #error Not soft ABI
+    #endif
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  libc_mips_float=soft
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+      #if !defined(__mips_hard_float)
+      #error Not hard ABI
+      #endif
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  libc_mips_float=hard
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+if test -z "$libc_mips_float"; then
+  as_fn_error $? "could not determine if compiler is using hard or soft floating point ABI" "$LINENO" 5
+fi
+
+config_vars="$config_vars
+default-abi = ${libc_mips_abi}_${libc_mips_float}"
+
+case "$prefix" in
+/usr | /usr/)
+  # 64-bit libraries on bi-arch platforms go in /lib64 instead of /lib.
+  # Allow earlier configure scripts to handle libc_cv_slibdir, libdir,
+  # and libc_cv_localedir.
+  test -n "$libc_cv_slibdir" || \
+  case $machine in
+  mips/mips64/n64/* )
+    libc_cv_slibdir="/lib64"
+    if test "$libdir" = '${exec_prefix}/lib'; then
+      libdir='${exec_prefix}/lib64';
+      # Locale data can be shared between 32bit and 64bit libraries
+      libc_cv_localedir='${exec_prefix}/lib/locale'
+    fi
+    ;;
+  mips/mips64/n32/* )
+    libc_cv_slibdir="/lib32"
+    if test "$libdir" = '${exec_prefix}/lib'; then
+      libdir='${exec_prefix}/lib32';
+      # Locale data can be shared between 32bit and 64bit libraries
+      libc_cv_localedir='${exec_prefix}/lib/locale'
+    fi
+    ;;
+  *)
+    libc_cv_slibdir="/lib"
+    ;;
+  esac
+esac
+
+libc_cv_gcc_unwind_find_fde=yes

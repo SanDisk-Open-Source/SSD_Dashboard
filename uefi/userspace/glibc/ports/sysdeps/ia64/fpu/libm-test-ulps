@@ -1,0 +1,1146 @@
+# Begin of automatic generation
+
+# cacos
+Test "Imaginary part of: cacos (0.75 + 1.25 i)":
+float: 1
+ifloat: 1
+ildouble: 2
+ldouble: 2
+
+# cacosh
+Test "Real part of: cacosh (-2 - 3 i)":
+double: 1
+float: 7
+idouble: 1
+ifloat: 7
+ildouble: 7
+ldouble: 7
+Test "Imaginary part of: cacosh (-2 - 3 i)":
+double: 1
+idouble: 1
+ildouble: 1
+ldouble: 1
+
+# casin
+Test "Real part of: casin (0.75 + 1.25 i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 2
+ldouble: 2
+Test "Imaginary part of: casin (0.75 + 1.25 i)":
+float: 1
+ifloat: 1
+ildouble: 2
+ldouble: 2
+
+# casinh
+Test "Real part of: casinh (-2 - 3 i)":
+double: 5
+float: 1
+idouble: 5
+ifloat: 1
+ildouble: 5
+ldouble: 5
+Test "Imaginary part of: casinh (-2 - 3 i)":
+double: 3
+float: 6
+idouble: 3
+ifloat: 6
+ildouble: 5
+ldouble: 5
+Test "Real part of: casinh (0.75 + 1.25 i)":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "Imaginary part of: casinh (0.75 + 1.25 i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+
+# catan
+Test "Imaginary part of: catan (-2 - 3 i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+
+# catanh
+Test "Real part of: catanh (-2 - 3 i)":
+double: 4
+idouble: 4
+ildouble: 1
+ldouble: 1
+Test "Real part of: catanh (0.75 + 1.25 i)":
+double: 1
+idouble: 1
+
+# ccos
+Test "Imaginary part of: ccos (-2 - 3 i)":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "Real part of: ccos (0.75 + 1.25 i)":
+double: 1
+idouble: 1
+ildouble: 1
+ldouble: 1
+Test "Imaginary part of: ccos (0.75 + 1.25 i)":
+ildouble: 1
+ldouble: 1
+
+# ccosh
+Test "Imaginary part of: ccosh (-2 - 3 i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "Real part of: ccosh (0.75 + 1.25 i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Imaginary part of: ccosh (0.75 + 1.25 i)":
+float: 1
+ifloat: 1
+
+# cexp
+Test "Imaginary part of: cexp (-2.0 - 3.0 i)":
+float: 1
+ifloat: 1
+Test "Real part of: cexp (0.75 + 1.25 i)":
+float: 1
+ifloat: 1
+Test "Imaginary part of: cexp (0.75 + 1.25 i)":
+ildouble: 1
+ldouble: 1
+
+# clog
+Test "Real part of: clog (0.75 + 1.25 i)":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+# clog10
+Test "Imaginary part of: clog10 (-0 + inf i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Imaginary part of: clog10 (-0 - inf i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Imaginary part of: clog10 (-2 - 3 i)":
+double: 1
+idouble: 1
+ildouble: 1
+ldouble: 1
+Test "Imaginary part of: clog10 (-3 + inf i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Imaginary part of: clog10 (-3 - inf i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Imaginary part of: clog10 (-inf + 0 i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Imaginary part of: clog10 (-inf + 1 i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Imaginary part of: clog10 (-inf + inf i)":
+double: 1
+idouble: 1
+Test "Imaginary part of: clog10 (-inf - 0 i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Imaginary part of: clog10 (-inf - 1 i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Imaginary part of: clog10 (0 + inf i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Imaginary part of: clog10 (0 - inf i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Real part of: clog10 (0.75 + 1.25 i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "Imaginary part of: clog10 (3 + inf i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Imaginary part of: clog10 (3 - inf i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Imaginary part of: clog10 (inf + inf i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "Imaginary part of: clog10 (inf - inf i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+
+# cos
+Test "cos (0.80190127184058835)":
+double: 1
+idouble: 1
+Test "cos (M_PI_6l * 2.0)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "cos (M_PI_6l * 4.0)":
+double: 2
+float: 1
+idouble: 2
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "cos (pi/2)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+# cpow
+Test "Real part of: cpow (0.75 + 1.25 i, 0.0 + 1.0 i)":
+float: 1
+ifloat: 1
+Test "Imaginary part of: cpow (0.75 + 1.25 i, 0.0 + 1.0 i)":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "Real part of: cpow (0.75 + 1.25 i, 0.75 + 1.25 i)":
+double: 1
+float: 4
+idouble: 1
+ifloat: 4
+ildouble: 6
+ldouble: 6
+Test "Imaginary part of: cpow (0.75 + 1.25 i, 0.75 + 1.25 i)":
+ildouble: 1
+ldouble: 1
+Test "Real part of: cpow (0.75 + 1.25 i, 1.0 + 0.0 i)":
+ildouble: 1
+ldouble: 1
+Test "Real part of: cpow (0.75 + 1.25 i, 1.0 + 1.0 i)":
+double: 2
+float: 3
+idouble: 2
+ifloat: 3
+ildouble: 3
+ldouble: 3
+Test "Real part of: cpow (2 + 0 i, 10 + 0 i)":
+ildouble: 1
+ldouble: 1
+Test "Real part of: cpow (2 + 3 i, 4 + 0 i)":
+double: 1
+float: 5
+idouble: 1
+ifloat: 5
+ildouble: 1
+ldouble: 1
+Test "Imaginary part of: cpow (2 + 3 i, 4 + 0 i)":
+float: 2
+ifloat: 2
+ildouble: 4
+ldouble: 4
+Test "Imaginary part of: cpow (e + 0 i, 0 + 2 * M_PIl i)":
+double: 2
+float: 3
+idouble: 2
+ifloat: 3
+ildouble: 1
+ldouble: 1
+
+# csin
+Test "Real part of: csin (0.75 + 1.25 i)":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "Imaginary part of: csin (0.75 + 1.25 i)":
+float: 1
+ifloat: 1
+
+# csinh
+Test "Real part of: csinh (-2 - 3 i)":
+double: 1
+idouble: 1
+Test "Imaginary part of: csinh (-2 - 3 i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 2
+ldouble: 2
+Test "Real part of: csinh (0.75 + 1.25 i)":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "Imaginary part of: csinh (0.75 + 1.25 i)":
+float: 1
+ifloat: 1
+
+# csqrt
+Test "Real part of: csqrt (-2 + 3 i)":
+float: 1
+ifloat: 1
+Test "Real part of: csqrt (-2 - 3 i)":
+float: 1
+ifloat: 1
+
+# ctan
+Test "Real part of: ctan (-2 - 3 i)":
+double: 1
+idouble: 1
+ildouble: 2
+ldouble: 2
+Test "Imaginary part of: ctan (-2 - 3 i)":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "Real part of: ctan (0.75 + 1.25 i)":
+ildouble: 1
+ldouble: 1
+Test "Imaginary part of: ctan (0.75 + 1.25 i)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+
+# ctanh
+Test "Real part of: ctanh (-2 - 3 i)":
+ildouble: 1
+ldouble: 1
+Test "Imaginary part of: ctanh (-2 - 3 i)":
+float: 1
+ifloat: 1
+ildouble: 24
+ldouble: 24
+Test "Imaginary part of: ctanh (0 + pi/4 i)":
+float: 1
+ifloat: 1
+Test "Real part of: ctanh (0.75 + 1.25 i)":
+double: 1
+idouble: 1
+Test "Imaginary part of: ctanh (0.75 + 1.25 i)":
+double: 1
+idouble: 1
+ildouble: 1
+ldouble: 1
+
+# erf
+Test "erf (1.25)":
+double: 1
+idouble: 1
+
+# erfc
+Test "erfc (0.75)":
+float: 1
+ifloat: 1
+Test "erfc (1.25)":
+ildouble: 1
+ldouble: 1
+Test "erfc (2.0)":
+double: 1
+idouble: 1
+Test "erfc (4.125)":
+double: 1
+idouble: 1
+ildouble: 1
+ldouble: 1
+
+# exp10
+Test "exp10 (-1)":
+double: 2
+float: 1
+idouble: 2
+ifloat: 1
+Test "exp10 (0.75)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "exp10 (3)":
+double: 6
+float: 2
+idouble: 6
+ifloat: 2
+ildouble: 3
+ldouble: 3
+
+# expm1
+Test "expm1 (1)":
+ildouble: 1
+ldouble: 1
+
+# gamma
+Test "gamma (-0.5)":
+ildouble: 1
+ldouble: 1
+
+# hypot
+Test "hypot (-0.7, -12.4)":
+float: 1
+ifloat: 1
+Test "hypot (-0.7, 12.4)":
+float: 1
+ifloat: 1
+Test "hypot (-12.4, -0.7)":
+float: 1
+ifloat: 1
+Test "hypot (-12.4, 0.7)":
+float: 1
+ifloat: 1
+Test "hypot (0.7, -12.4)":
+float: 1
+ifloat: 1
+Test "hypot (0.7, 12.4)":
+float: 1
+ifloat: 1
+Test "hypot (12.4, -0.7)":
+float: 1
+ifloat: 1
+Test "hypot (12.4, 0.7)":
+float: 1
+ifloat: 1
+
+# j0
+Test "j0 (-4.0)":
+double: 1
+float: 2
+idouble: 1
+ifloat: 2
+ildouble: 2
+ldouble: 2
+Test "j0 (10.0)":
+double: 3
+float: 1
+idouble: 3
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "j0 (2.0)":
+float: 2
+ifloat: 2
+Test "j0 (4.0)":
+double: 1
+float: 2
+idouble: 1
+ifloat: 2
+ildouble: 2
+ldouble: 2
+Test "j0 (8.0)":
+float: 1
+ifloat: 1
+
+# j1
+Test "j1 (10.0)":
+float: 2
+ifloat: 2
+ildouble: 1
+ldouble: 1
+Test "j1 (2.0)":
+double: 1
+idouble: 1
+Test "j1 (8.0)":
+double: 1
+idouble: 1
+
+# jn
+Test "jn (0, -4.0)":
+double: 1
+float: 2
+idouble: 1
+ifloat: 2
+ildouble: 2
+ldouble: 2
+Test "jn (0, 10.0)":
+double: 3
+float: 1
+idouble: 3
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "jn (0, 2.0)":
+float: 2
+ifloat: 2
+Test "jn (0, 4.0)":
+double: 1
+float: 2
+idouble: 1
+ifloat: 2
+ildouble: 2
+ldouble: 2
+Test "jn (0, 8.0)":
+float: 1
+ifloat: 1
+Test "jn (1, 10.0)":
+float: 2
+ifloat: 2
+ildouble: 1
+ldouble: 1
+Test "jn (1, 2.0)":
+double: 1
+idouble: 1
+Test "jn (1, 8.0)":
+double: 1
+idouble: 1
+Test "jn (10, -1.0)":
+ildouble: 1
+ldouble: 1
+Test "jn (10, 0.125)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "jn (10, 0.75)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 2
+ldouble: 2
+Test "jn (10, 1.0)":
+ildouble: 1
+ldouble: 1
+Test "jn (10, 10.0)":
+float: 1
+ifloat: 1
+ildouble: 2
+ldouble: 2
+Test "jn (10, 2.0)":
+float: 4
+ifloat: 4
+ildouble: 1
+ldouble: 1
+Test "jn (3, -1.0)":
+ildouble: 1
+ldouble: 1
+Test "jn (3, 0.125)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "jn (3, 0.75)":
+double: 1
+idouble: 1
+Test "jn (3, 1.0)":
+ildouble: 1
+ldouble: 1
+Test "jn (3, 10.0)":
+double: 3
+float: 2
+idouble: 3
+ifloat: 2
+ildouble: 1
+ldouble: 1
+Test "jn (3, 2.0)":
+double: 1
+float: 2
+idouble: 1
+ifloat: 2
+ildouble: 1
+ldouble: 1
+
+# lgamma
+Test "lgamma (-0.5)":
+ildouble: 1
+ldouble: 1
+Test "lgamma (0.7)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "lgamma (1.2)":
+double: 1
+float: 2
+idouble: 1
+ifloat: 2
+ildouble: 1
+ldouble: 1
+
+# log
+Test "log (e)":
+float: 1
+ifloat: 1
+
+# log10
+Test "log10 (e)":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+# sincos
+Test "sincos (0.80190127184058835) extra output 2":
+double: 1
+idouble: 1
+Test "sincos (M_PI_6l*2.0) extra output 1":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "sincos (M_PI_6l*2.0) extra output 2":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "sincos (pi/2) extra output 2":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+# tan
+Test "tan (pi/4)":
+double: 1
+idouble: 1
+
+# tgamma
+Test "tgamma (-0.5)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "tgamma (0.5)":
+float: 1
+ifloat: 1
+Test "tgamma (0.7)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+
+# y0
+Test "y0 (0.125)":
+ildouble: 1
+ldouble: 1
+Test "y0 (1.0)":
+double: 2
+float: 1
+idouble: 2
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "y0 (1.5)":
+double: 2
+float: 1
+idouble: 2
+ifloat: 1
+Test "y0 (10.0)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "y0 (2.0)":
+double: 1
+idouble: 1
+Test "y0 (8.0)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+# y1
+Test "y1 (0.125)":
+double: 1
+idouble: 1
+ildouble: 1
+ldouble: 1
+Test "y1 (1.5)":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "y1 (10.0)":
+double: 3
+float: 1
+idouble: 3
+ifloat: 1
+Test "y1 (2.0)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "y1 (8.0)":
+double: 1
+float: 2
+idouble: 1
+ifloat: 2
+
+# yn
+Test "yn (0, 0.125)":
+ildouble: 1
+ldouble: 1
+Test "yn (0, 1.0)":
+double: 2
+float: 1
+idouble: 2
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "yn (0, 1.5)":
+double: 2
+float: 1
+idouble: 2
+ifloat: 1
+Test "yn (0, 10.0)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "yn (0, 2.0)":
+double: 1
+idouble: 1
+Test "yn (0, 8.0)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "yn (1, 0.125)":
+double: 1
+idouble: 1
+ildouble: 1
+ldouble: 1
+Test "yn (1, 1.5)":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "yn (1, 10.0)":
+double: 3
+float: 1
+idouble: 3
+ifloat: 1
+Test "yn (1, 2.0)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "yn (1, 8.0)":
+double: 1
+float: 2
+idouble: 1
+ifloat: 2
+Test "yn (10, 0.125)":
+double: 1
+idouble: 1
+ildouble: 2
+ldouble: 2
+Test "yn (10, 0.75)":
+double: 1
+float: 2
+idouble: 1
+ifloat: 2
+Test "yn (10, 1.0)":
+float: 2
+ifloat: 2
+Test "yn (10, 10.0)":
+double: 2
+float: 2
+idouble: 2
+ifloat: 2
+Test "yn (10, 2.0)":
+double: 3
+float: 1
+idouble: 3
+ifloat: 1
+Test "yn (3, 0.125)":
+double: 1
+idouble: 1
+ildouble: 1
+ldouble: 1
+Test "yn (3, 0.75)":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+Test "yn (3, 10.0)":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+Test "yn (3, 2.0)":
+double: 1
+idouble: 1
+
+# Maximal error of functions:
+Function: Imaginary part of "cacos":
+float: 1
+ifloat: 1
+ildouble: 2
+ldouble: 2
+
+Function: Real part of "cacosh":
+double: 1
+float: 7
+idouble: 1
+ifloat: 7
+ildouble: 7
+ldouble: 7
+
+Function: Imaginary part of "cacosh":
+double: 1
+idouble: 1
+ildouble: 1
+ldouble: 1
+
+Function: Real part of "casin":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 2
+ldouble: 2
+
+Function: Imaginary part of "casin":
+float: 1
+ifloat: 1
+ildouble: 2
+ldouble: 2
+
+Function: Real part of "casinh":
+double: 5
+float: 1
+idouble: 5
+ifloat: 1
+ildouble: 5
+ldouble: 5
+
+Function: Imaginary part of "casinh":
+double: 3
+float: 6
+idouble: 3
+ifloat: 6
+ildouble: 5
+ldouble: 5
+
+Function: Imaginary part of "catan":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+
+Function: Real part of "catanh":
+double: 4
+idouble: 4
+ildouble: 1
+ldouble: 1
+
+Function: Real part of "ccos":
+double: 1
+idouble: 1
+ildouble: 1
+ldouble: 1
+
+Function: Imaginary part of "ccos":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: Real part of "ccosh":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+
+Function: Imaginary part of "ccosh":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: Real part of "cexp":
+float: 1
+ifloat: 1
+
+Function: Imaginary part of "cexp":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: Real part of "clog":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: Real part of "clog10":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: Imaginary part of "clog10":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: "cos":
+double: 2
+float: 1
+idouble: 2
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: Real part of "cpow":
+double: 2
+float: 5
+idouble: 2
+ifloat: 5
+ildouble: 6
+ldouble: 6
+
+Function: Imaginary part of "cpow":
+double: 2
+float: 3
+idouble: 2
+ifloat: 3
+ildouble: 4
+ldouble: 4
+
+Function: Real part of "csin":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: Imaginary part of "csin":
+float: 1
+ifloat: 1
+
+Function: Real part of "csinh":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: Imaginary part of "csinh":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 2
+ldouble: 2
+
+Function: Real part of "csqrt":
+float: 1
+ifloat: 1
+
+Function: Real part of "ctan":
+double: 1
+idouble: 1
+ildouble: 2
+ldouble: 2
+
+Function: Imaginary part of "ctan":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: Real part of "ctanh":
+double: 1
+idouble: 1
+ildouble: 1
+ldouble: 1
+
+Function: Imaginary part of "ctanh":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 24
+ldouble: 24
+
+Function: "erf":
+double: 1
+idouble: 1
+
+Function: "erfc":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: "exp10":
+double: 6
+float: 2
+idouble: 6
+ifloat: 2
+ildouble: 3
+ldouble: 3
+
+Function: "expm1":
+ildouble: 1
+ldouble: 1
+
+Function: "gamma":
+ildouble: 1
+ldouble: 1
+
+Function: "hypot":
+float: 1
+ifloat: 1
+
+Function: "j0":
+double: 3
+float: 2
+idouble: 3
+ifloat: 2
+ildouble: 2
+ldouble: 2
+
+Function: "j1":
+double: 1
+float: 2
+idouble: 1
+ifloat: 2
+ildouble: 1
+ldouble: 1
+
+Function: "jn":
+double: 3
+float: 4
+idouble: 3
+ifloat: 4
+ildouble: 2
+ldouble: 2
+
+Function: "lgamma":
+double: 1
+float: 2
+idouble: 1
+ifloat: 2
+ildouble: 1
+ldouble: 1
+
+Function: "log":
+float: 1
+ifloat: 1
+
+Function: "log10":
+float: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: "sincos":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: "tan":
+double: 1
+idouble: 1
+
+Function: "tgamma":
+double: 1
+float: 1
+idouble: 1
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: "y0":
+double: 2
+float: 1
+idouble: 2
+ifloat: 1
+ildouble: 1
+ldouble: 1
+
+Function: "y1":
+double: 3
+float: 2
+idouble: 3
+ifloat: 2
+ildouble: 1
+ldouble: 1
+
+Function: "yn":
+double: 3
+float: 2
+idouble: 3
+ifloat: 2
+ildouble: 2
+ldouble: 2
+
+# end of automatic generation

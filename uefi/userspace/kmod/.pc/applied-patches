@@ -1,0 +1,7 @@
+dot_kcmdline
+bad_alias_assertion
+blacklist_aliased
+verbose_missing_bin
+check_builtin_kver
+aliases_conf
+debian_manpages

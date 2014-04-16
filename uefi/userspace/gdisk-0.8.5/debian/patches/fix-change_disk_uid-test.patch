@@ -1,0 +1,16 @@
+Description: Fixup test script to exit 1 on all failures
+ The change_disk_guid test does not exit 1 on failure when
+ it really should do to indicate test script failure.
+Author: James Page <james.page@ubuntu.com>
+Forwarded: no
+
+--- a/gdisk_test.sh
++++ b/gdisk_test.sh
+@@ -311,6 +311,7 @@ EOF
+ 		pretty_print "SUCCESS" "GUID of disk has been sucessfully changed"
+ 	else
+ 		pretty_print "FAILED" "GUID of disk is the same as the previous one"
++		exit 1
+ 	fi
+ }
+ 

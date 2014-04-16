@@ -1,0 +1,13 @@
+dot_kcmdline
+bad_alias_assertion
+blacklist_aliased
+
+# fixes to be pushed upstream
+verbose_missing_bin
+check_builtin_kver
+
+# features to be pushed upstream
+
+# Debian integration
+aliases_conf
+debian_manpages

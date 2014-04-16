@@ -1,0 +1,33 @@
+Description: Hide unnecessarily-exported library destructors
+ This change was extracted from the old monolithic Debian patch.  I have not
+ been able to find an explanation for why it is needed, but it should be
+ forwarded upstream for review.
+ .
+Author: Unknown
+
+---
+Forwarded: no
+Last-Update: 2011-10-13
+
+--- libselinux-2.1.0.orig/src/matchpathcon.c
++++ libselinux-2.1.0/src/matchpathcon.c
+@@ -291,7 +291,7 @@ static void matchpathcon_thread_destruct
+ 	matchpathcon_fini();
+ }
+ 
+-void __attribute__((destructor)) matchpathcon_lib_destructor(void)
++void hidden __attribute__((destructor)) matchpathcon_lib_destructor(void)
+ {
+ 	if (destructor_key_initialized)
+ 		__selinux_key_delete(destructor_key);
+--- libselinux-2.1.0.orig/src/setrans_client.c
++++ libselinux-2.1.0/src/setrans_client.c
+@@ -253,7 +253,7 @@ static void setrans_thread_destructor(vo
+ 	free(prev_r2c_raw);
+ }
+ 
+-void __attribute__((destructor)) setrans_lib_destructor(void)
++void hidden __attribute__((destructor)) setrans_lib_destructor(void)
+ {
+ 	if (destructor_key_initialized)
+ 		__selinux_key_delete(destructor_key);

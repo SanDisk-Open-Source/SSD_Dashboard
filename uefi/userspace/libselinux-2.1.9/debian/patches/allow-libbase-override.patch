@@ -1,0 +1,16 @@
+Description: Allow to redefine LIBBASE
+ This is needed to set multiarch path
+Author: Laurent Bigonville <bigon@debian.org>
+Date: Wed, 07 Mar 2012 23:29:07 +0100
+
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -19,7 +19,7 @@ RUBYLIBVER ?= $(shell ruby -e 'print RUB
+ RUBYPLATFORM ?= $(shell ruby -e 'print RUBY_PLATFORM')
+ RUBYINC ?= $(LIBDIR)/ruby/$(RUBYLIBVER)/$(RUBYPLATFORM)
+ RUBYINSTALL ?= $(LIBDIR)/ruby/site_ruby/$(RUBYLIBVER)/$(RUBYPLATFORM)
+-LIBBASE=$(shell basename $(LIBDIR))
++LIBBASE ?= $(shell basename $(LIBDIR))
+ 
+ VERSION = $(shell cat ../VERSION)
+ LIBVERSION = 1

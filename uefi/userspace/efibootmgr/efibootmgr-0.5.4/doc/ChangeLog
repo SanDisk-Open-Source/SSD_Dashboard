@@ -1,0 +1,329 @@
+commit 6e6bf6fc7665851798a6c2c92893ebb629e42aff
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Fri Jan 11 15:08:12 2008 -0600
+
+    replacing elilo < 3.6-6, not -5
+    
+    per conversation with clumens.
+
+commit 4c1fd35da4d0478074e08c10225eb590576acf91
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Thu Jan 3 12:19:28 2008 -0600
+
+    RPM spec rewrite for Fedora inclusion
+    
+    efibootmgr is being split out of the elilo SRPM in Fedora, into its
+    own SRPM.
+
+commit 833cf4c1266ef72357948299008a22bfb80aa3f3
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Thu Jan 3 12:18:31 2008 -0600
+
+    Makefile cleanups
+    
+    bump version
+    
+    take an EXTRA_CFLAGS argument so rpmbuild can give us it's CFLAGS
+    without overriding ours.
+    
+    exclude .git and *~ files from the tarball.
+
+commit f0a8b91ba45ff4cf251805cc29aed4f8672c1801
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Thu Jan 3 12:16:35 2008 -0600
+
+    src/lib/efi.c: include linux/types.h
+    
+    patch from Fedora.
+
+commit f387d5c5bde5d7129e41638e92faa2d38b7ad5a1
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Thu Jan 3 12:15:18 2008 -0600
+
+    make sure GPT_HEADER_SIGNATURE is a 64-bit value
+    
+    patch from Debian / Ubuntu 0.5.3-3ubuntu1.
+
+commit 7b53efa45112f28e97451bdc16e6c6a68740bd79
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Mon Nov 12 13:31:32 2007 -0600
+
+    avoid more unaligned access warnings
+
+commit 048197821f9ae2ef9e0c2bd4065649e72332e2dc
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Mon Nov 12 12:25:42 2007 -0600
+
+    cleanup a few unaligned access warnings
+
+commit fa3942b34f1533659af8fe3f6fffb3b4acf4ee10
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Mon Nov 12 12:12:37 2007 -0600
+
+    cleanup exit values a little
+
+commit c7e236783a79b6977df0ba03db0f92fabffc4b31
+Author: Doug Chapman <doug.chapman@hp.com>
+Date:   Mon Nov 12 11:32:12 2007 -0500
+
+    patch to make efibootmgr have non-zero exit code on errors
+    
+    We have some automated tools that use efibootmgr which are having a hard
+    time detecting when efibootmgr fails since it exits with 0 on many
+    failures.  This patch catches (most) errors and exits with non-zero.  I
+    also added several error messages for to make it more obvious what was
+    wrong with the command line arguments.
+    
+    Signed-off-by: Matt Domsch <Matt_Domsch@dell.com>
+
+commit ecd3c24cb6bee5072ff6d1292456ee3b2cc91019
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Mon Jul 9 16:47:50 2007 +0000
+
+    add -lz to libs, needed when libpci happens to need it
+
+commit e192a055e0803263b71f89db732de73d5cf4de9b
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Mon Jul 9 16:23:34 2007 +0000
+
+    apply patch from Dave Jiang <djiang@mvista.com> to enable cross-building
+
+commit 0ee8ecc10109b91d0a77098d5596f56780c862d8
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Thu Aug 11 17:37:04 2005 +0000
+
+    v0.5.2.2
+
+* Thu Aug 11 2005 Matt Domsch <Matt_Domsch@dell.com>
+- applied patch from Rogerio Timmers which adds a new option -@ <file>,
+  which takes extra variable parameters from <file>, or - from stdin.
+  This lets you pass binary (non-unicode, non-ascii) formatted options to
+  your bootloader.
+- cleaned up Rogerio's patch some.
+- moved definition of _FILE_OFFSET_BITS=64 into Makefile and out of the
+  individual .c files.  This fixes a bug reported by Red Flag, where
+  variable data was getting incorrectly set with a 32-bit copy of
+  efibootmgr on a 32-bit kernel.
+- made efi_variable_t.DataSize be an unsigned long to match the kernel.
+  This lets a 32-bit copy of efibootmgr run on a 32-bit kernel.  This
+  means you've got to have a 32-bit efibootmgr on a 32-bit kernel, and a
+  64-bit efibootmgr on a 64-bit kernel, but since efi_status_t is also a
+  long, this was really going to be the case anyway.
+- valgrind caught the app exiting without freeing some malloc'd
+  structures, fix that.
+- v0.5.2.2 released for testing	
+
+
+* Fri May 20 2005 Matt Domsch <Matt_Domsch@dell.com>
+- applied patch from Andreas Schwab to properly parse PCI
+  domain:bus:device.fn info in netboot entries.  Fixed up return value
+  when creating network boot entries for nonexistant devices, so the
+  creation now fails, rather than succeeding with incorrect data.
+- v0.5.2 released
+
+* Tue Mar 08 2005 Matt Domsch <Matt_Domsch@dell.com>
+- applied patch from Alex Williamson for handling BootXXXX values
+  using uppercase hex rather than lowercase, per EFI 1.10 spec.
+- this also allows the full 65k boot entries, rather than requiring all
+  entries to begin with a zero.
+- v0.5.1 released
+
+* Thu Aug 26 2004 Matt Domsch <Matt_Domsch@dell.com>
+- v0.5.0-test4 released as v0.5.0 with no code changes
+
+* Wed Jun 07 2004 Matt Domsch <Matt_Domsch@dell.com>
+- Fixed bug where read_boot_order() would wrongly return EFI_NOT_FOUND
+  when it needed to create a new BootOrder variable.  Reported by Micah Parrish.
+- Added code to recursively walk the PCI bus putting parent PCI bridges
+  in.  This is necessary for Dell PowerEdge 3250 and 7250 servers and
+  Intel Tiger2 and Tiger4 platforms when creating PXE boot entries for
+  the onboard NICs, and if creating EDD30 boot path entries.  Work by Matt
+  and Joshua Giles.
+  - Note, efibootmgr now requires libpci for building.
+- Released v0.5.0-test4
+
+* Sat Apr 24 2004 Matt Domsch <Matt_Domsch@dell.com>
+- Fixed reversed logic of create_or_edit_variable which prevented object
+  creation or editing on sysfs.
+- Removed debug printfs in sysfs read/write commands.
+- Released v0.5.0-test3
+
+* Thu Feb 04 2004 Matt Domsch <Matt_Domsch@dell.com>
+- removed -t short option for --test
+- added -t <timeout> and -T delete timeout options
+- updated man page and README about the timeout options
+- Released v0.5.0-test2
+
+* Tue Sep 09 2003 Matt Domsch <Matt_Domsch@dell.com>
+- Released v0.5.0-test1
+
+* Thu Sep 04 2003 Matt Domsch <Matt_Domsch@dell.com>
+- Seperated access to variables through /proc into efivars_procfs.[ch]
+- Added efivars_sysfs.h to access variables through sysfs.
+- Moved around some functions, cleaned up some duplication.
+
+* Thu Sep 04 2003 Matt Domsch <Matt_Domsch@dell.com>
+- released v0.4.2-test2 as v0.4.2 without additional changes.
+
+* Mon Aug 11 2003 Matt Domsch <Matt_Domsch@dell.com>
+- fixed unaligned access errors
+- removed extraneous printing of mac addr when creating netboot entries
+- sync docbook to README
+- whitespace cleanups
+
+* Thu Jul 31 2003 Matt Domsch <Matt_Domsch@dell.com>
+- Applied patch from Dann Frazier to enable creating netboot entries.
+- update AUTHORS with Dann's netboot contribution.
+- Until we can get the ACPI HID and UID programatically, make the user
+  pass them in when creating a netboot entry.
+- Add O_DIRECT support for reading the disk.
+- Fix unparse_hardware_path() for the PCI case - the device and function
+  values were printed in reverse order.
+- Fix the README file to reflect all the options that can be passed, and
+  add a new item for netboot entries.
+- whitespace cleanups
+
+* Fri Oct 25 2002 Matt Domsch <Matt_Domsch@dell.com>
+- trivial patch from Fabien Lebaillif - Delamare <fabien@quadric.com>
+  increases the length of the boot option description from 40 to 64 bytes.
+
+* Tue Oct 22 2002 Matt Domsch <Matt_Domsch@dell.com>
+- ran docbook2man on the man page Dann Frazier created
+- Added man page to spec file
+- Added patches from Dann Frazier
+  - Removes the requirement to be root to run efibootmgr.  This lets
+    mortal users run efibootmgr to check the version, and see the
+    --help output. It should also allow efibootmgr to work under
+    security systems without the strict root/non-root dichotomy.
+    - Checks to see if a boot option was specified when a boot option
+    deletion was requested.
+- Released version 0.4.1
+
+* Sun Jul 21 2002 Matt Domsch <Matt_Domsch@dell.com>
+- Added kernel_has_blkgetsize64() test, now uses BLKGETSIZE64 if on a
+  known-good kernel.  This is important when the Large Block Device (64-bit
+  block address) patch gets merged into the 2.5 kernel.
+
+* Wed May 1 2002 Matt Domsch <Matt_Domsch@dell.com>
+- Released version 0.4.0
+
+* Tue Apr 30 2002 Matt Domsch <Matt_Domsch@dell.com>
+- Added some printfs to compare_gpts().
+
+* Mon Apr 08 2002 Matt Domsch <Matt_Domsch@dell.com>
+- Make sure partition number arg is in the GPT disk.
+- Added a few more _FILE_OFFSET_BITS defines where needed
+
+* Fri Apr 05 2002 Matt Domsch <Matt_Domsch@dell.com>
+- Added syncs to make tarball target so NFS is current and CVS dirs get
+  deleted before the tarball is made.
+- Added a few __leXX_to_cpu() calls in code currently commented out in gpt.c
+
+* Tue Apr 02 2002 Matt Domsch <Matt_Domsch@dell.com>
+- finished conversion to GPT code
+
+* Sat Mar 30 2002 Matt Domsch <Matt_Domsch@dell.com>
+- began conversion to GPT code in post-2.4.18 and post-2.5.7 kernels.
+- added manpage contributed by dannf@fc.hp.com
+
+* Mon Feb 11 2002 Matt Domsch <Matt_Domsch@dell.com>
+- BLKGETSIZE64 is fixed in 2.4.18-pre8 and 2.5.4-pre3.  Wait a bit longer
+before using though.
+- added list_for_each_safe() routine.  It's needed in the boot
+var deletion routine, though it was already breaking out once found.
+- changed struct list_head to list_t
+- released v0.4.0-test4
+
+* Fri Jan 18 2002 Matt Domsch <Matt_Domsch@dell.com>
+- commented out BLKGETSIZE64 ioctl use for now.  Kernels 2.4.15-2.4.18 and
+  2.5.0-2.5.3 don't return the right value.
+
+* Thu Jan 3 2002 Matt Domsch <Matt_Domsch@dell.com>
+- added back in read last sector IOCTL hack, but only after read() fails.
+- released v0.4.0-test4
+
+* Thu Jan 3 2002 Matt Domsch <Matt_Domsch@dell.com>
+- more cleanups
+- released v0.4.0-test3
+
+* Wed Jan 2 2002 Matt Domsch <Matt_Domsch@dell.com>
+- Changed PROC_DIR_EFI to PROC_DIR_EFI_VARS
+- write_variable() now searches /proc/efi/vars for a variable that's not
+  the one being written.  The EFI 1.1 sample implementation changed the
+  name of the "victim" being written to (was Efi-xxxxx, now EFI-xxxxx), so
+  previous versions of efibootmgr don't work with the new firmware.  This
+  should fix that up.
+- released v0.4.0-test2
+
+* Fri Dec 7 2001 Matt Domsch <Matt_Domsch@dell.com>
+- Removed read last sector ioctl hack, it's not needed anymore.  The
+  kernel takes care of it for us with a new patch.
+- Added test for valid PMBR, similar to parted and the kernel.
+- Added test for returning size of block device as a u64.
+- Added test for returning sector size as int, and use that.
+- Changed GPT struct and member names to be more Linux-like.
+- added -g option to force disk with invalid PMBR to be treated as GPT anyhow.
+- released v0.4.0-test1
+
+* Thu Aug 9 2001 Matt Domsch <Matt_Domsch@dell.com>
+- Added some uniqueness to the MBR signature.
+- removed ExclusiveArch from spec file
+- released v0.3.4
+
+* Mon Aug 6 2001 Matt Domsch <Matt_Domsch@dell.com>
+- applied patch from Richard Hirst <rhirst@linuxcare.com> to fix
+  efichar_char_strcmp().
+
+
+* Fri Aug 3 2001 Matt Domsch <Matt_Domsch@dell.com>
+- By request, warn when creating a new boot entry with the same name
+  as another boot entry.
+- released v0.3.3
+
+* Mon Jul 30 2001 Matt Domsch <Matt_Domsch@dell.com>
+- Added test for non-zero signature on MBR-style disks,
+  and new -w flag to write a unique signature to the disk if so.
+- released v0.3.3-test4
+- Fixed counting of optional data length (extra args)
+- released v0.3.3-test5
+
+* Fri Jul 27 2001 Matt Domsch <Matt_Domsch@dell.com>
+- Added test for running as root
+- released v0.3.3-test3
+
+* Thu Jul 26 2001 Matt Domsch <Matt_Domsch@dell.com>
+- Unparse extra args being passed to bootloader too.
+- released v0.3.3-test2
+
+* Wed Jul 25 2001 Matt Domsch <Matt_Domsch@dell.com>
+- Added -u option to pass extra args to the bootloader in unicode
+  (default is to pass in ASCII)
+- Added -t option to allow writing to a file (for testing)
+- released v0.3.3-test1
+
+* Tue May 22 2001 Matt Domsch <Matt_Domsch@dell.com>
+- Applied patch from Andreas Schwab.  remove_from_boot_order() called
+  read_boot_order() without checking the return status.
+- Changed README to remove os loader args comment
+- Changed efi_status_t to be unsigned long (not uint64_t) as per EFI
+  spec.  This allows efibootmgr to be recompiled as a 32-bit or 64-bit app
+  depending on its running on 32-bit or 64-bit Linux.  Note:  this changes
+  the size of the structure returned in /proc/efi/vars to match the kernel
+  implementation.  32-bit efibootmgr won't work on 64-bit Linux and vice versa.
+- release v0.3.2
+
+* Fri May 18 2001 Matt Domsch <Matt_Domsch@dell.com>
+- changed usage() to *not* let you think you can pass args to the OS
+  loader
+- release v0.3.1
+
+* Fri May 18 2001 Matt Domsch <Matt_Domsch@dell.com>
+- Padded HARDDRIVE_DEVICE_PATH out to please EFI Boot Manager.
+- Incorporated patches from Andreas Schwab
+  - replace __u{8,16,32,64} with uint{8,16,32,64}_t
+  - use _FILE_OFFSET_BITS
+  - fix a segfault
+- release v0.3.0
+
+* Tue May 15 2001 Matt Domsch <Matt_Domsch@dell.com>
+- initial external release v0.2.0
